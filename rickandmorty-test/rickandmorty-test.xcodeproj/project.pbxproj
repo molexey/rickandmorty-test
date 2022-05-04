@@ -8,18 +8,20 @@
 
 /* Begin PBXBuildFile section */
 		CE306EBE282291E20042E031 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE306EBD282291E20042E031 /* AppDelegate.swift */; };
-		CE306EC2282291E20042E031 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE306EC1282291E20042E031 /* ViewController.swift */; };
+		CE306EC2282291E20042E031 /* CharactersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE306EC1282291E20042E031 /* CharactersViewController.swift */; };
 		CE306EC7282291E20042E031 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE306EC6282291E20042E031 /* Assets.xcassets */; };
 		CE306ECA282291E20042E031 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE306EC8282291E20042E031 /* LaunchScreen.storyboard */; };
+		CE7026712822B4F100D0D208 /* CharacterDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7026702822B4F100D0D208 /* CharacterDetailsViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		CE306EBA282291E20042E031 /* rickandmorty-test.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "rickandmorty-test.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE306EBD282291E20042E031 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		CE306EC1282291E20042E031 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		CE306EC1282291E20042E031 /* CharactersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharactersViewController.swift; sourceTree = "<group>"; };
 		CE306EC6282291E20042E031 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CE306EC9282291E20042E031 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CE306ECB282291E20042E031 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CE7026702822B4F100D0D208 /* CharacterDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterDetailsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,7 +55,8 @@
 			isa = PBXGroup;
 			children = (
 				CE306EBD282291E20042E031 /* AppDelegate.swift */,
-				CE306EC1282291E20042E031 /* ViewController.swift */,
+				CE306EC1282291E20042E031 /* CharactersViewController.swift */,
+				CE7026702822B4F100D0D208 /* CharacterDetailsViewController.swift */,
 				CE306EC6282291E20042E031 /* Assets.xcassets */,
 				CE306EC8282291E20042E031 /* LaunchScreen.storyboard */,
 				CE306ECB282291E20042E031 /* Info.plist */,
@@ -131,8 +134,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CE306EC2282291E20042E031 /* ViewController.swift in Sources */,
+				CE306EC2282291E20042E031 /* CharactersViewController.swift in Sources */,
 				CE306EBE282291E20042E031 /* AppDelegate.swift in Sources */,
+				CE7026712822B4F100D0D208 /* CharacterDetailsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
