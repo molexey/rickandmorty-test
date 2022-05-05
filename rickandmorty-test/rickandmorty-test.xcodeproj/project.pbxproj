@@ -12,6 +12,7 @@
 		CE306EC7282291E20042E031 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE306EC6282291E20042E031 /* Assets.xcassets */; };
 		CE306ECA282291E20042E031 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE306EC8282291E20042E031 /* LaunchScreen.storyboard */; };
 		CE7026712822B4F100D0D208 /* CharacterDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7026702822B4F100D0D208 /* CharacterDetailsViewController.swift */; };
+		CE7026732822BD4100D0D208 /* CharacterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7026722822BD4100D0D208 /* CharacterCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +23,7 @@
 		CE306EC9282291E20042E031 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CE306ECB282291E20042E031 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CE7026702822B4F100D0D208 /* CharacterDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterDetailsViewController.swift; sourceTree = "<group>"; };
+		CE7026722822BD4100D0D208 /* CharacterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +58,7 @@
 			children = (
 				CE306EBD282291E20042E031 /* AppDelegate.swift */,
 				CE306EC1282291E20042E031 /* CharactersViewController.swift */,
+				CE7026722822BD4100D0D208 /* CharacterCell.swift */,
 				CE7026702822B4F100D0D208 /* CharacterDetailsViewController.swift */,
 				CE306EC6282291E20042E031 /* Assets.xcassets */,
 				CE306EC8282291E20042E031 /* LaunchScreen.storyboard */,
@@ -137,6 +140,7 @@
 				CE306EC2282291E20042E031 /* CharactersViewController.swift in Sources */,
 				CE306EBE282291E20042E031 /* AppDelegate.swift in Sources */,
 				CE7026712822B4F100D0D208 /* CharacterDetailsViewController.swift in Sources */,
+				CE7026732822BD4100D0D208 /* CharacterCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

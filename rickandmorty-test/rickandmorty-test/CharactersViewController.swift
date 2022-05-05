@@ -9,13 +9,9 @@ import UIKit
 
 class CharactersViewController: UIViewController {
 
-    let characters = [
-        "Rick Sanchez",
-        "Morty Smith",
-        "Summer Smith",
-        "Beth Smith",
-        "Jerry Smith"
-    ]
+    //var characters = []
+    
+    var characterCellViewModels: [CharacterCell.ViewModel] = []
     
     var tableView = UITableView()
     
@@ -23,6 +19,8 @@ class CharactersViewController: UIViewController {
         super.viewDidLoad()
         navigationItem.title = "Characters"
         setup()
+        
+        fetchCharacters()
     }
 }
 
@@ -34,6 +32,10 @@ extension CharactersViewController {
     private func setupTableView() {
         tableView.delegate = self
         tableView.dataSource = self
+        
+        tableView.register(CharacterCell.self, forCellReuseIdentifier: CharacterCell.reuseID)
+        tableView.rowHeight = CharacterCell.rowHeight
+        tableView.tableFooterView = UIView()
         
         tableView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(tableView)
@@ -49,23 +51,41 @@ extension CharactersViewController {
 
 extension CharactersViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell()
-        cell.textLabel?.text = characters[indexPath.row]
+        guard !characterCellViewModels.isEmpty else { return UITableViewCell() }
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: CharacterCell.reuseID, for: indexPath) as! CharacterCell
+        let character = characterCellViewModels[indexPath.row]
+        
+        cell.configure(with: character)
+        
         return cell
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return characters.count
+        return characterCellViewModels.count
     }
 }
 
 extension CharactersViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let viewController = CharacterDetailsViewController()
-        let character = characters[indexPath.row]
         
         navigationController?.pushViewController(viewController, animated: true)
         
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+}
+
+extension CharactersViewController {
+    private func fetchCharacters() {
+        let character1 = CharacterCell.ViewModel(characterName: "Rick Sanchez", characterGender: "Male", characterSpecies: "Human", characterImageURL: "https://rickandmortyapi.com/api/character/avatar/1.jpeg")
+        
+        let character2 = CharacterCell.ViewModel(characterName: "Morty Smith", characterGender: "Male", characterSpecies: "Human", characterImageURL: "https://rickandmortyapi.com/api/character/avatar/2.jpeg")
+        
+        let character3 = CharacterCell.ViewModel(characterName: "Summer Smith", characterGender: "Female", characterSpecies: "Human", characterImageURL: "https://rickandmortyapi.com/api/character/avatar/3.jpeg")
+        
+        characterCellViewModels.append(character1)
+        characterCellViewModels.append(character2)
+        characterCellViewModels.append(character3)
     }
 }
