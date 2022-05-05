@@ -41,7 +41,7 @@ class CharacterCell: UITableViewCell {
 extension CharacterCell {
     private func setup() {
         avatarImage.translatesAutoresizingMaskIntoConstraints = false
-        avatarImage.backgroundColor = .gray
+        avatarImage.backgroundColor = .systemGray5
         
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
         nameLabel.font = UIFont.preferredFont(forTextStyle: .headline)
