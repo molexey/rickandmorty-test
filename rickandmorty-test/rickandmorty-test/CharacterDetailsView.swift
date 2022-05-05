@@ -57,11 +57,12 @@ class CharacterDetailsView: UIView {
             return "\(characterStatus.rawValue) - \(characterSpecies)"
         }
         
+        let charactersEpisodesCount: Int?
+        
         var characterEpisodes: String {
-//            if let episode = character.episode {
-//                return String(episode.count)
-//            } else { return "--" }
-            return "51"
+            if let charactersEpisodesCount = charactersEpisodesCount {
+                return String(charactersEpisodesCount)
+            } else { return "--" }
         }
     }
     
