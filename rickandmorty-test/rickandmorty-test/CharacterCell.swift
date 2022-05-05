@@ -9,13 +9,15 @@ import UIKit
 
 class CharacterCell: UITableViewCell {
     
-    let avatarImage = UIImageView()
+    let avatarImageView = UIImageView()
     let nameLabel = UILabel()
     let speciesLabel = UILabel()
     let genderLabel = UILabel()
     
     static let reuseID = "CharacterCell"
     static let rowHeight: CGFloat = 100
+    
+    var onReuse: () -> Void = {}
     
     struct ViewModel {
         let characterName: String
@@ -25,6 +27,11 @@ class CharacterCell: UITableViewCell {
     }
     
     let viewModel: ViewModel? = nil
+    
+    override func prepareForReuse() {
+        avatarImageView.image = nil
+        avatarImageView.cancelImageLoad()
+    }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -40,8 +47,8 @@ class CharacterCell: UITableViewCell {
 
 extension CharacterCell {
     private func setup() {
-        avatarImage.translatesAutoresizingMaskIntoConstraints = false
-        avatarImage.backgroundColor = .systemGray5
+        avatarImageView.translatesAutoresizingMaskIntoConstraints = false
+        avatarImageView.backgroundColor = .systemGray5
         
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
         nameLabel.font = UIFont.preferredFont(forTextStyle: .headline)
@@ -58,7 +65,7 @@ extension CharacterCell {
         genderLabel.adjustsFontForContentSizeCategory = true
         genderLabel.text = "Male"
         
-        contentView.addSubview(avatarImage)
+        contentView.addSubview(avatarImageView)
         contentView.addSubview(nameLabel)
         contentView.addSubview(speciesLabel)
         contentView.addSubview(genderLabel)
@@ -70,10 +77,10 @@ extension CharacterCell {
 //        avatarImage.leadingAnchor.constraint(equalTo: margins.leadingAnchor).isActive = true
 //        avatarImage.trailingAnchor.constraint(equalTo: margins.trailingAnchor).isActive = true
         
-        avatarImage.widthAnchor.constraint(equalToConstant: CharacterCell.rowHeight).isActive = true
-        avatarImage.heightAnchor.constraint(equalToConstant: CharacterCell.rowHeight).isActive = true
+        avatarImageView.widthAnchor.constraint(equalToConstant: CharacterCell.rowHeight).isActive = true
+        avatarImageView.heightAnchor.constraint(equalToConstant: CharacterCell.rowHeight).isActive = true
         
-        nameLabel.leadingAnchor.constraint(equalToSystemSpacingAfter: avatarImage.trailingAnchor, multiplier: 2).isActive = true
+        nameLabel.leadingAnchor.constraint(equalToSystemSpacingAfter: avatarImageView.trailingAnchor, multiplier: 2).isActive = true
         nameLabel.topAnchor.constraint(equalToSystemSpacingBelow: topAnchor, multiplier: 2).isActive = true
         
         speciesLabel.leadingAnchor.constraint(equalTo: nameLabel.leadingAnchor).isActive = true
@@ -87,9 +94,9 @@ extension CharacterCell {
 
 extension CharacterCell {
     func configure(with viewModel: ViewModel) {
-        //avatarImage = viewModel.characterImageURL
         nameLabel.text = viewModel.characterName
         speciesLabel.text = viewModel.characterSpecies
         genderLabel.text = viewModel.characterGender
+        avatarImageView.loadImage(at: URL(string: viewModel.characterImageURL)!) // Force unwrapping!
     }
 }

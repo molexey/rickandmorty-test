@@ -89,7 +89,7 @@ extension CharacterDetailsView {
         
         avatarImageView.translatesAutoresizingMaskIntoConstraints = false
         avatarImageView.backgroundColor = .white
-        avatarImageView.layer.cornerRadius = 8
+        avatarImageView.layer.cornerRadius = 8 // Disappears after an image is loaded
         
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
         nameLabel.text = "Rick Sanchez abc abc abc"
@@ -172,7 +172,7 @@ extension CharacterDetailsView {
 
 extension CharacterDetailsView {
     func configure(with viewModel: ViewModel) {
-        //avatarImage = viewModel.characterImageURL
+        avatarImageView.loadImage(at: URL(string: viewModel.characterImageURL)!) // Force unwrapping!
         nameLabel.text = viewModel.characterName
         statusIndictatorView.backgroundColor = viewModel.characterStatusIndicatorColor
         statusAndSpeciesLabel.text = viewModel.statusAndSpeciesLabel

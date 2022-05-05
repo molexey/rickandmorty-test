@@ -40,7 +40,6 @@ class UIImageLoader {
         uuidMap.removeValue(forKey: imageView)
       }
     }
-    
 }
 
 extension UIImageView {

@@ -36,7 +36,7 @@ class CharacterDetailsViewController: UIViewController {
                     print(error)
                     self.showErrorAlert(title: "Boom!", message: error.localizedDescription)
                 }
-                self.configureCharacterDetailView(with: self.character!)
+                self.configureCharacterDetailView(with: self.character!) // Force unwrapping!
                 self.characterDetailsView.configure(with: self.characterDetailsViewModel!)
             }
         }
