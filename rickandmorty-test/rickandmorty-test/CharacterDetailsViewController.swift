@@ -10,16 +10,16 @@ import UIKit
 class CharacterDetailsViewController: UIViewController {
 
     let characterDetailsView = CharacterDetailsView()
-    
+    var characterDetailsViewModel: CharacterDetailsView.ViewModel? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
         style()
         layout()
-
-        // Do any additional setup after loading the view.
+        
+        fetchCharacter()
+        characterDetailsView.configure(with: characterDetailsViewModel!)
     }
-    
 }
 
 extension CharacterDetailsViewController {
@@ -41,5 +41,11 @@ extension CharacterDetailsViewController {
 //            view.trailingAnchor.constraint(equalToSystemSpacingAfter: characterDetailsView.trailingAnchor, multiplier: 1)
             
         ])
+    }
+}
+
+extension CharacterDetailsViewController {
+    private func fetchCharacter() {
+        characterDetailsViewModel = CharacterDetailsView.ViewModel(characterImageURL: "https://rickandmortyapi.com/api/character/avatar/1.jpeg", characterName: "Rick Sanchez", characterStatus: .alive, characterSpecies: "Human", characterLocation: "Citadel of Ricks", characterGender: "Male")
     }
 }

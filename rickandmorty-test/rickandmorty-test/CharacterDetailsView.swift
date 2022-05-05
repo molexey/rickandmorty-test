@@ -28,6 +28,45 @@ class CharacterDetailsView: UIView {
     let episodesTextLabel = UILabel()
     let episodesLabel = UILabel()
     
+    enum Status: String {
+        case alive = "Alive"
+        case dead = "Dead"
+        case unknown = "unknown"
+    }
+    
+    struct ViewModel {
+        let characterImageURL: String
+        let characterName: String
+        let characterStatus: Status
+        let characterSpecies: String
+        let characterLocation: String
+        let characterGender: String
+        
+        var characterStatusIndicatorColor: UIColor {
+            switch characterStatus {
+            case .alive:
+                return .systemGreen
+            case .dead:
+                return .systemRed
+            case .unknown:
+                return .systemGray
+            }
+        }
+        
+        var statusAndSpeciesLabel: String {
+            return "\(characterStatus.rawValue) - \(characterSpecies)"
+        }
+        
+        var characterEpisodes: String {
+//            if let episode = character.episode {
+//                return String(episode.count)
+//            } else { return "--" }
+            return "51"
+        }
+    }
+    
+    let viewModel: ViewModel? = nil
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -55,6 +94,7 @@ extension CharacterDetailsView {
         nameLabel.text = "Rick Sanchez abc abc abc"
         //nameLabel.font = UIFont.preferredFont(forTextStyle: .title1)
         nameLabel.font = UIFont.boldSystemFont(ofSize: 30)
+        nameLabel.numberOfLines = 0
         
         statusIndictatorView.translatesAutoresizingMaskIntoConstraints = false
         statusIndictatorView.backgroundColor = .systemGreen
@@ -106,7 +146,6 @@ extension CharacterDetailsView {
         
         addSubview(stackView)
         
-        
         avatarImageView.widthAnchor.constraint(equalToConstant: avatarImageSize).isActive = true
         avatarImageView.heightAnchor.constraint(equalToConstant: avatarImageSize).isActive = true
         avatarImageView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
@@ -127,5 +166,18 @@ extension CharacterDetailsView {
         
         stackView.leadingAnchor.constraint(equalTo: avatarImageView.leadingAnchor).isActive = true
         stackView.topAnchor.constraint(equalToSystemSpacingBelow: statusAndSpeciesLabel.bottomAnchor, multiplier: 3).isActive = true
+    }
+}
+
+extension CharacterDetailsView {
+    func configure(with viewModel: ViewModel) {
+        //avatarImage = viewModel.characterImageURL
+        nameLabel.text = viewModel.characterName
+        statusIndictatorView.backgroundColor = viewModel.characterStatusIndicatorColor
+        statusAndSpeciesLabel.text = viewModel.statusAndSpeciesLabel
+        
+        locationLabel.text = viewModel.characterLocation
+        genderLabel.text = viewModel.characterGender
+        episodesLabel.text = viewModel.characterEpisodes
     }
 }
