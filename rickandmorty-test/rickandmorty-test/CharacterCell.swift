@@ -17,16 +17,11 @@ class CharacterCell: UITableViewCell {
     static let reuseID = "CharacterCell"
     static let rowHeight: CGFloat = 100
     
+    var model: CharacterCellModel?
+    
+    private var observation: NSKeyValueObservation?
+    
     var onReuse: () -> Void = {}
-    
-    struct ViewModel {
-        let characterName: String
-        let characterGender: String
-        let characterSpecies: String
-        let characterImageURL: String
-    }
-    
-    let viewModel: ViewModel? = nil
     
     override func prepareForReuse() {
         avatarImageView.image = nil
@@ -43,6 +38,24 @@ class CharacterCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    func configure(withModel model: CharacterCellModel) {
+
+        self.model = model
+        //self.avatarImageView = model.character.image
+        self.nameLabel.text = model.character.name
+        self.speciesLabel.text = model.character.species
+        self.genderLabel.text = model.character.gender
+
+        // Remove previous observation
+//        self.observation = nil
+//
+//        self.observation = model.observe(\.selected) { [unowned self] (model, change) in
+//            self.updateCheckmark()
+//        }
+
+    }
+    
 }
 
 extension CharacterCell {
@@ -90,13 +103,5 @@ extension CharacterCell {
         genderLabel.topAnchor.constraint(equalToSystemSpacingBelow: speciesLabel.bottomAnchor, multiplier: 1).isActive = true
         
     }
-}
-
-extension CharacterCell {
-    func configure(with viewModel: ViewModel) {
-        nameLabel.text = viewModel.characterName
-        speciesLabel.text = viewModel.characterSpecies
-        genderLabel.text = viewModel.characterGender
-        avatarImageView.loadImage(at: URL(string: viewModel.characterImageURL)!) // Force unwrapping!
-    }
+    
 }

@@ -9,24 +9,19 @@ import UIKit
 
 class CharactersViewController: UIViewController {
 
-    // Request Models
     var characters: [Character] = []
     var currentInfо: Info? = nil
-    
     var page = 1
-    
-    // View Models
-    var characterCellViewModels: [CharacterCell.ViewModel] = []
-    
+        
     var tableView = UITableView()
-    
+    var data: CharactersTableViewDataSource!
     let apiCaller = APICaller.shared
     
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "Characters"
+        tableView.delegate = self
         setup()
-        
         //fetchCharacters()
         getCharacters(with: String(page))
     }
@@ -38,9 +33,6 @@ extension CharactersViewController {
     }
     
     private func setupTableView() {
-        tableView.delegate = self
-        tableView.dataSource = self
-        
         tableView.register(CharacterCell.self, forCellReuseIdentifier: CharacterCell.reuseID)
         tableView.rowHeight = CharacterCell.rowHeight
         tableView.tableFooterView = UIView()
@@ -89,7 +81,7 @@ extension CharactersViewController {
     
     private func getCharacters(with param: String) {
         APICaller.shared.getCharacters(load: true, query: param) { result in
-            DispatchQueue.main.async {
+            DispatchQueue.main.async { [self] in
                 switch result {
                 case .success(let response):
                     self.currentInfо = response.info
@@ -98,7 +90,10 @@ extension CharactersViewController {
                     print(error)
                     self.showErrorAlert(title: "Boom!", message: error.localizedDescription)
                 }
-                self.configureTableCells(with: self.characters)
+                //self.configureTableCells(with: self.characters)
+                //print(self.characters)
+                data = CharactersTableViewDataSource(сharacters: characters, tableView: tableView)
+                self.data.prepareData()
                 self.tableView.reloadData()
             }
         }
@@ -116,32 +111,8 @@ extension CharactersViewController {
         present(alert, animated: true, completion:  nil)
     }
     
-    private func configureTableCells(with characters: [Character]) {
-        characterCellViewModels = characters.map {
-            CharacterCell.ViewModel(characterName: $0.name,
-                                             characterGender: $0.gender,
-                                             characterSpecies: $0.species,
-                                             characterImageURL: $0.image)
-        }
-    }
 }
 
-extension CharactersViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard !characterCellViewModels.isEmpty else { return UITableViewCell() }
-        
-        let cell = tableView.dequeueReusableCell(withIdentifier: CharacterCell.reuseID, for: indexPath) as! CharacterCell
-        let character = characterCellViewModels[indexPath.row]
-        
-        cell.configure(with: character)
-        
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return characterCellViewModels.count
-    }
-}
 
 extension CharactersViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -152,18 +123,19 @@ extension CharactersViewController: UITableViewDelegate {
         
         tableView.deselectRow(at: indexPath, animated: true)
     }
+    
 }
 
-extension CharactersViewController {
-    private func fetchCharacters() {
-        let character1 = CharacterCell.ViewModel(characterName: "Rick Sanchez", characterGender: "Male", characterSpecies: "Human", characterImageURL: "https://rickandmortyapi.com/api/character/avatar/1.jpeg")
-        
-        let character2 = CharacterCell.ViewModel(characterName: "Morty Smith", characterGender: "Male", characterSpecies: "Human", characterImageURL: "https://rickandmortyapi.com/api/character/avatar/2.jpeg")
-        
-        let character3 = CharacterCell.ViewModel(characterName: "Summer Smith", characterGender: "Female", characterSpecies: "Human", characterImageURL: "https://rickandmortyapi.com/api/character/avatar/3.jpeg")
-        
-        characterCellViewModels.append(character1)
-        characterCellViewModels.append(character2)
-        characterCellViewModels.append(character3)
-    }
-}
+//extension CharactersViewController {
+//    private func fetchCharacters() {
+//        let character1 = CharacterCell.ViewModel(characterName: "Rick Sanchez", characterGender: "Male", characterSpecies: "Human", characterImageURL: "https://rickandmortyapi.com/api/character/avatar/1.jpeg")
+//
+//        let character2 = CharacterCell.ViewModel(characterName: "Morty Smith", characterGender: "Male", characterSpecies: "Human", characterImageURL: "https://rickandmortyapi.com/api/character/avatar/2.jpeg")
+//
+//        let character3 = CharacterCell.ViewModel(characterName: "Summer Smith", characterGender: "Female", characterSpecies: "Human", characterImageURL: "https://rickandmortyapi.com/api/character/avatar/3.jpeg")
+//
+//        characterCellViewModels.append(character1)
+//        characterCellViewModels.append(character2)
+//        characterCellViewModels.append(character3)
+//    }
+//}
