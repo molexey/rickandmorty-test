@@ -40,9 +40,8 @@ class CharacterCell: UITableViewCell {
     }
     
     func configure(withModel model: CharacterCellModel) {
-
         self.model = model
-        //self.avatarImageView = model.character.image
+        self.avatarImageView.loadImage(at: URL(string: model.character.image)!)
         self.nameLabel.text = model.character.name
         self.speciesLabel.text = model.character.species
         self.genderLabel.text = model.character.gender
@@ -101,7 +100,6 @@ extension CharacterCell {
         
         genderLabel.leadingAnchor.constraint(equalTo: nameLabel.leadingAnchor).isActive = true
         genderLabel.topAnchor.constraint(equalToSystemSpacingBelow: speciesLabel.bottomAnchor, multiplier: 1).isActive = true
-        
     }
     
 }
