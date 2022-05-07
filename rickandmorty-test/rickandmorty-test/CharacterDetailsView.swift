@@ -89,7 +89,8 @@ extension CharacterDetailsView {
         
         avatarImageView.translatesAutoresizingMaskIntoConstraints = false
         avatarImageView.backgroundColor = .white
-        avatarImageView.layer.cornerRadius = 8 // Disappears after an image is loaded
+        avatarImageView.layer.cornerRadius = 8
+        avatarImageView.clipsToBounds = true
         
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
         nameLabel.text = "Rick Sanchez abc abc abc"
