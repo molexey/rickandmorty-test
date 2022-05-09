@@ -6,8 +6,9 @@
 //
 
 import UIKit
+import CollectionAndTableViewCompatible
 
-class CharacterCell: UITableViewCell {
+class CharacterCell: UITableViewCell, Configurable {
     
     let avatarImageView = UIImageView()
     let nameLabel = UILabel()
@@ -18,9 +19,6 @@ class CharacterCell: UITableViewCell {
     static let rowHeight: CGFloat = 100
     
     var model: CharacterCellModel?
-    
-    private var observation: NSKeyValueObservation?
-    
     var onReuse: () -> Void = {}
     
     override func prepareForReuse() {
@@ -32,7 +30,6 @@ class CharacterCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setup()
         layout()
-        
     }
     
     required init?(coder: NSCoder) {
@@ -45,14 +42,6 @@ class CharacterCell: UITableViewCell {
         self.nameLabel.text = model.character.name
         self.speciesLabel.text = model.character.species
         self.genderLabel.text = model.character.gender
-
-        // Remove previous observation
-//        self.observation = nil
-//
-//        self.observation = model.observe(\.selected) { [unowned self] (model, change) in
-//            self.updateCheckmark()
-//        }
-
     }
     
 }
