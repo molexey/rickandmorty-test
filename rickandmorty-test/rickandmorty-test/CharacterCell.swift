@@ -38,10 +38,10 @@ class CharacterCell: UITableViewCell, Configurable {
     
     func configure(withModel model: CharacterCellModel) {
         self.model = model
-        self.avatarImageView.loadImage(at: URL(string: model.character.image)!)
-        self.nameLabel.text = model.character.name
-        self.speciesLabel.text = model.character.species
-        self.genderLabel.text = model.character.gender
+        self.avatarImageView.loadImage(at: URL(string: model.avatarImage)!)
+        self.nameLabel.text = model.name
+        self.speciesLabel.text = model.species
+        self.genderLabel.text = model.gender
     }
     
 }

@@ -11,15 +11,24 @@ class CharacterCellModel: NSObject, TableViewCompatible {
     
     let reuseIdentifier: String = "CharacterCell"
     
-    let character: Character
+    let avatarImage: String
+    let name: String
+    let species: String
+    let gender: String
     
-    @objc dynamic var selected: Bool = false
-    
+    var selected: Bool = false
     var editable: Bool = false
     var movable: Bool = false
     
-    init(character: Character) {
-        self.character = character
+    init(avatarImage: String, name: String, species: String, gender: String) {
+        self.avatarImage = avatarImage
+        self.name = name
+        self.species = species
+        self.gender = gender
+    }
+    
+    convenience init(character: Character) {
+        self.init(avatarImage: character.image, name: character.name, species: character.species, gender: character.gender)
     }
     
     func cellForTableView(tableView: UITableView, atIndexPath indexPath: IndexPath) -> UITableViewCell {
