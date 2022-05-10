@@ -6,9 +6,11 @@
 //
 
 import Foundation
+import ObjectMapper
 
 final class APICaller {
     static let shared = APICaller()
+    
     var isLoading = false
     var urlComponents = URLComponents(string: "https://rickandmortyapi.com")
     
@@ -43,6 +45,7 @@ final class APICaller {
         // URL https://rickandmortyapi.com/api/character/2
         urlComponents = URLComponents(string: "https://rickandmortyapi.com")
         urlComponents?.path = "/api/character/\(characterID)"
+        
         guard let url = urlComponents?.url else { return }
         print(url)
         request(url: url, expecting: Character.self, load: load, completion: completion)
@@ -56,7 +59,7 @@ final class APICaller {
         case invalidURL
     }
     
-    private func request<T: Decodable>(
+    private func request<T: Mappable>(
         url: URL?,
         expecting: T.Type,
         load: Bool,
@@ -77,15 +80,16 @@ final class APICaller {
                 return
             }
             
+            // TODO: - Fix 'catch' block is unreachable because no errors are thrown in 'do' block
             do {
-                let decoder = JSONDecoder()
-                let result = try decoder.decode(expecting, from: data)
+                let jsonString = String(decoding: data, as: UTF8.self)
+                let result = expecting.self.init(JSONString: jsonString)
                 
-                completion(.success(result))
+                completion(.success(result!)) // Force unwrapping!
+                
                 if load {
                     self.isLoading = false
                 }
-                
             }
             catch {
                 completion(.failure(error))

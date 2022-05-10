@@ -56,13 +56,13 @@ class CharacterDetailsViewController: UIViewController {
     
     private func configureCharacterDetailView(with character: Character) {
         characterDetailsViewModel = CharacterDetailsView.ViewModel(
-            characterImageURL: character.image,
-            characterName: character.name,
-            characterStatus: CharacterDetailsView.Status(rawValue: character.status) ?? .unknown,
-            characterSpecies: character.species,
-            characterLocation: character.location.name,
-            characterGender: character.gender,
-            charactersEpisodesCount: character.episode?.count
+            characterImageURL: character.image ?? "",
+            characterName: character.name  ?? "",
+            characterStatus: CharacterDetailsView.Status(rawValue: character.status ?? "") ?? .unknown,
+            characterSpecies: character.species  ?? "",
+            characterLocation: character.location?.name  ?? "",
+            characterGender: character.gender  ?? "",
+            charactersEpisodesCount: character.episode?.count ?? 0
         )
     }
 }

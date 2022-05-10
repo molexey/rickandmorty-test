@@ -11,11 +11,12 @@
 		CE306EC2282291E20042E031 /* CharactersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE306EC1282291E20042E031 /* CharactersViewController.swift */; };
 		CE306EC7282291E20042E031 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE306EC6282291E20042E031 /* Assets.xcassets */; };
 		CE306ECA282291E20042E031 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE306EC8282291E20042E031 /* LaunchScreen.storyboard */; };
+		CE413395282A944600FA8F49 /* ObjectMapper in Frameworks */ = {isa = PBXBuildFile; productRef = CE413394282A944600FA8F49 /* ObjectMapper */; };
 		CE7026712822B4F100D0D208 /* CharacterDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7026702822B4F100D0D208 /* CharacterDetailsViewController.swift */; };
 		CE7026732822BD4100D0D208 /* CharacterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7026722822BD4100D0D208 /* CharacterCell.swift */; };
 		CE7FC6182823BD84005F3546 /* CharacterDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7FC6172823BD84005F3546 /* CharacterDetailsView.swift */; };
 		CE7FC61A2823F2CC005F3546 /* APICaller.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7FC6192823F2CC005F3546 /* APICaller.swift */; };
-		CE7FC61D2823F360005F3546 /* Charecter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7FC61C2823F360005F3546 /* Charecter.swift */; };
+		CE7FC61D2823F360005F3546 /* Character.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7FC61C2823F360005F3546 /* Character.swift */; };
 		CE7FC6202823F3CA005F3546 /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7FC61F2823F3CA005F3546 /* ImageLoader.swift */; };
 		CE7FC6222823F3F0005F3546 /* UIImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7FC6212823F3F0005F3546 /* UIImageLoader.swift */; };
 		CEB118CF282588CA00AB7C3C /* CollectionAndTableViewCompatible in Frameworks */ = {isa = PBXBuildFile; productRef = CEB118CE282588CA00AB7C3C /* CollectionAndTableViewCompatible */; };
@@ -34,7 +35,7 @@
 		CE7026722822BD4100D0D208 /* CharacterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterCell.swift; sourceTree = "<group>"; };
 		CE7FC6172823BD84005F3546 /* CharacterDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterDetailsView.swift; sourceTree = "<group>"; };
 		CE7FC6192823F2CC005F3546 /* APICaller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APICaller.swift; sourceTree = "<group>"; };
-		CE7FC61C2823F360005F3546 /* Charecter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Charecter.swift; sourceTree = "<group>"; };
+		CE7FC61C2823F360005F3546 /* Character.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Character.swift; sourceTree = "<group>"; };
 		CE7FC61F2823F3CA005F3546 /* ImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
 		CE7FC6212823F3F0005F3546 /* UIImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageLoader.swift; sourceTree = "<group>"; };
 		CEB118D028258A0100AB7C3C /* CharacterCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterCellModel.swift; sourceTree = "<group>"; };
@@ -46,6 +47,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE413395282A944600FA8F49 /* ObjectMapper in Frameworks */,
 				CEB118CF282588CA00AB7C3C /* CollectionAndTableViewCompatible in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -101,7 +103,7 @@
 		CE7FC61E2823F387005F3546 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				CE7FC61C2823F360005F3546 /* Charecter.swift */,
+				CE7FC61C2823F360005F3546 /* Character.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -124,6 +126,7 @@
 			name = "rickandmorty-test";
 			packageProductDependencies = (
 				CEB118CE282588CA00AB7C3C /* CollectionAndTableViewCompatible */,
+				CE413394282A944600FA8F49 /* ObjectMapper */,
 			);
 			productName = "rickandmorty-test";
 			productReference = CE306EBA282291E20042E031 /* rickandmorty-test.app */;
@@ -155,6 +158,7 @@
 			mainGroup = CE306EB1282291E20042E031;
 			packageReferences = (
 				CEB118CD282588CA00AB7C3C /* XCRemoteSwiftPackageReference "CollectionAndTableViewCompatible" */,
+				CE413393282A944500FA8F49 /* XCRemoteSwiftPackageReference "ObjectMapper" */,
 			);
 			productRefGroup = CE306EBB282291E20042E031 /* Products */;
 			projectDirPath = "";
@@ -190,7 +194,7 @@
 				CE7FC6222823F3F0005F3546 /* UIImageLoader.swift in Sources */,
 				CE7026712822B4F100D0D208 /* CharacterDetailsViewController.swift in Sources */,
 				CE7FC6182823BD84005F3546 /* CharacterDetailsView.swift in Sources */,
-				CE7FC61D2823F360005F3546 /* Charecter.swift in Sources */,
+				CE7FC61D2823F360005F3546 /* Character.swift in Sources */,
 				CE7FC6202823F3CA005F3546 /* ImageLoader.swift in Sources */,
 				CE7026732822BD4100D0D208 /* CharacterCell.swift in Sources */,
 			);
@@ -404,6 +408,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		CE413393282A944500FA8F49 /* XCRemoteSwiftPackageReference "ObjectMapper" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/tristanhimmelman/ObjectMapper.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.1.0;
+			};
+		};
 		CEB118CD282588CA00AB7C3C /* XCRemoteSwiftPackageReference "CollectionAndTableViewCompatible" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/jayway/CollectionAndTableViewCompatible";
@@ -415,6 +427,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		CE413394282A944600FA8F49 /* ObjectMapper */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CE413393282A944500FA8F49 /* XCRemoteSwiftPackageReference "ObjectMapper" */;
+			productName = ObjectMapper;
+		};
 		CEB118CE282588CA00AB7C3C /* CollectionAndTableViewCompatible */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = CEB118CD282588CA00AB7C3C /* XCRemoteSwiftPackageReference "CollectionAndTableViewCompatible" */;

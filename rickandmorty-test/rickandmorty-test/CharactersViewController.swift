@@ -85,7 +85,9 @@ extension CharactersViewController {
                 switch result {
                 case .success(let response):
                     self.currentInfо = response.info
-                    self.characters.append(contentsOf: response.results)
+                    if let character = response.results {
+                    self.characters.append(contentsOf: character)
+                    }
                 case .failure(let error):
                     print(error)
                     self.showErrorAlert(title: "Boom!", message: error.localizedDescription)

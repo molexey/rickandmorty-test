@@ -28,7 +28,7 @@ class CharacterCellModel: NSObject, TableViewCompatible {
     }
     
     convenience init(character: Character) {
-        self.init(avatarImage: character.image, name: character.name, species: character.species, gender: character.gender)
+        self.init(avatarImage: character.image ?? "", name: character.name ?? "", species: character.species ?? "", gender: character.gender ?? "")
     }
     
     func cellForTableView(tableView: UITableView, atIndexPath indexPath: IndexPath) -> UITableViewCell {
