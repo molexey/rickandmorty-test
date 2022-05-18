@@ -13,27 +13,20 @@ enum Sections: Int {
 }
 
 class CharactersTableViewDataSource: TableViewDataSource {
-    
-    let characters: [Character]
-
-    init(сharacters characters: [Character], tableView: UITableView) {
-        self.characters = characters
-        
-        super.init(tableView: tableView)
+    var data: [TableViewCompatible] {
+        didSet {
+            prepareData()
+            tableView.reloadData()
+        }
     }
     
+    init(data: [TableViewCompatible] = [], tableView: UITableView) {
+        self.data = data
+        super.init(tableView: tableView)
+    }
+        
     func prepareData() {
-                
-        var items = [TableViewCompatible]()
-                
-        for character in self.characters {
-            let characterCellModel = CharacterCellModel(character: character)
-            //characterCellModel.selected =
-            items.append(characterCellModel)
-        }
-        print("items: \(items)")
-        let section = TableViewSection(sortOrder: Sections.CharacterSection.rawValue, items: items, headerTitle: "Characters", footerTitle: nil)
-
+        let section = TableViewSection(sortOrder: Sections.CharacterSection.rawValue, items: data, headerTitle: "Characters", footerTitle: nil)
         sections = [section].sorted {
             return $0.sortOrder < $1.sortOrder
         }

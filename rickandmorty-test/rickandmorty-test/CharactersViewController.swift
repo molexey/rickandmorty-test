@@ -14,25 +14,24 @@ class CharactersViewController: UIViewController {
     var page = 1
         
     var tableView = UITableView()
-    var data: CharactersTableViewDataSource!
+    var dataSource: CharactersTableViewDataSource!
+    
     let apiCaller = APICaller.shared
     
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "Characters"
-        tableView.delegate = self
         setup()
-        //fetchCharacters()
+//        fetchCharacters()
         getCharacters(with: String(page))
     }
 }
 
 extension CharactersViewController {
-    private func setup() {
-        setupTableView()
-    }
     
-    private func setupTableView() {
+    private func setup() {
+        dataSource = CharactersTableViewDataSource(data: [], tableView: tableView)
+        tableView.delegate = self
         tableView.register(CharacterCell.self, forCellReuseIdentifier: CharacterCell.reuseID)
         tableView.rowHeight = CharacterCell.rowHeight
         tableView.tableFooterView = UIView()
@@ -85,18 +84,15 @@ extension CharactersViewController {
                 switch result {
                 case .success(let response):
                     self.currentInfо = response.info
-                    if let character = response.results {
-                    self.characters.append(contentsOf: character)
+                    if let characters = response.results {
+                    self.characters.append(contentsOf: characters)
+                        self.dataSource.data.append(contentsOf: self.characters.map({CharacterCellModel(character: $0)}))
                     }
                 case .failure(let error):
                     print(error)
                     self.showErrorAlert(title: "Boom!", message: error.localizedDescription)
                 }
-                //self.configureTableCells(with: self.characters)
-                //print(self.characters)
-                data = CharactersTableViewDataSource(сharacters: characters, tableView: tableView)
-                self.data.prepareData()
-                self.tableView.reloadData()
+                self.dataSource.data = self.characters.map({CharacterCellModel(character: $0)})
             }
         }
     }
@@ -114,7 +110,6 @@ extension CharactersViewController {
     }
     
 }
-
 
 extension CharactersViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
