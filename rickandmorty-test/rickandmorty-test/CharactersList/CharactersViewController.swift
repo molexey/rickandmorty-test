@@ -33,7 +33,7 @@ extension CharactersViewController {
         dataSource = CharactersTableViewDataSource(data: [], tableView: tableView)
         tableView.delegate = self
         tableView.register(CharacterCell.self, forCellReuseIdentifier: CharacterCell.reuseID)
-        tableView.rowHeight = CharacterCell.rowHeight
+        tableView.rowHeight = UITableView.automaticDimension
         tableView.tableFooterView = UIView()
         
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -123,16 +123,19 @@ extension CharactersViewController: UITableViewDelegate {
     
 }
 
-//extension CharactersViewController {
-//    private func fetchCharacters() {
-//        let character1 = CharacterCell.ViewModel(characterName: "Rick Sanchez", characterGender: "Male", characterSpecies: "Human", characterImageURL: "https://rickandmortyapi.com/api/character/avatar/1.jpeg")
-//
-//        let character2 = CharacterCell.ViewModel(characterName: "Morty Smith", characterGender: "Male", characterSpecies: "Human", characterImageURL: "https://rickandmortyapi.com/api/character/avatar/2.jpeg")
-//
-//        let character3 = CharacterCell.ViewModel(characterName: "Summer Smith", characterGender: "Female", characterSpecies: "Human", characterImageURL: "https://rickandmortyapi.com/api/character/avatar/3.jpeg")
-//
-//        characterCellViewModels.append(character1)
-//        characterCellViewModels.append(character2)
-//        characterCellViewModels.append(character3)
-//    }
-//}
+extension CharactersViewController {
+    private func fetchCharacters() {
+        let character1 = CharacterCellModel(avatarImage: "https://rickandmortyapi.com/api/character/avatar/1.jpeg", name: "Rick Sanchez" , species: "Human", gender: "Male")
+
+        let character2 = CharacterCellModel(avatarImage: "https://rickandmortyapi.com/api/character/avatar/2.jpeg", name: "Morty Superlongnastname Name Name" , species: "Human", gender: "Male")
+        
+        let character3 = CharacterCellModel(avatarImage: "https://rickandmortyapi.com/api/character/avatar/3.jpeg", name: "Summer Smith" , species: "Human", gender: "Female")
+
+        var mockCharacters = [CharacterCellModel]()
+        mockCharacters.append(character1)
+        mockCharacters.append(character2)
+        mockCharacters.append(character3)
+        
+        self.dataSource.data = mockCharacters
+    }
+}

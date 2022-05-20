@@ -1,32 +1,27 @@
 //
-//  CharacterDetailsView.swift
+//  CharacterDetailsView2.swift
 //  rickandmorty-test
 //
-//  Created by molexey on 05.05.2022.
+//  Created by molexey on 19.05.2022.
 //
 
 import UIKit
 
 class CharacterDetailsView: UIView {
-    
+        
     let avatarImageView = UIImageView()
     let avatarImageSize : CGFloat = 200
     
     let nameLabel = UILabel()
     
-    let statusIndictatorView = UIView()
+    let statusIndicatorView = UIView()
     let statusAndSpeciesLabel = UILabel()
     
     let stackView = UIStackView()
     
-    let locationTextLabel = UILabel()
-    let locationLabel = UILabel()
-    
-    let genderTextLabel = UILabel()
-    let genderLabel = UILabel()
-    
-    let episodesTextLabel = UILabel()
-    let episodesLabel = UILabel()
+    let locationView = DoubleLabelView(titleText: "Last known location:")
+    let genderView = DoubleLabelView(titleText: "Gender:")
+    let episodesView = DoubleLabelView(titleText: "Number of episodes:")
     
     enum Status: String {
         case alive = "Alive"
@@ -94,80 +89,74 @@ extension CharacterDetailsView {
         
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
         nameLabel.text = "Rick Sanchez abc abc abc"
-        //nameLabel.font = UIFont.preferredFont(forTextStyle: .title1)
         nameLabel.font = UIFont.boldSystemFont(ofSize: 30)
         nameLabel.numberOfLines = 0
         
-        statusIndictatorView.translatesAutoresizingMaskIntoConstraints = false
-        statusIndictatorView.backgroundColor = .systemGreen
-        statusIndictatorView.layer.cornerRadius = 5
+        statusIndicatorView.translatesAutoresizingMaskIntoConstraints = false
+        statusIndicatorView.backgroundColor = .systemGreen
+        statusIndicatorView.layer.cornerRadius = 5
         
         statusAndSpeciesLabel.translatesAutoresizingMaskIntoConstraints = false
         statusAndSpeciesLabel.text = "Alive - Human"
         
+        locationView.configure(with: "Citadel of Ricks")
+        locationView.translatesAutoresizingMaskIntoConstraints = false
+//        locationView.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        
+        genderView.configure(with: "Male")
+        locationView.translatesAutoresizingMaskIntoConstraints = false
+        
+        episodesView.configure(with: "51")
+        locationView.translatesAutoresizingMaskIntoConstraints = false
+        
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
-        stackView.spacing = 8
+        stackView.distribution = .fill
+        stackView.alignment = .fill
         
-        locationTextLabel.translatesAutoresizingMaskIntoConstraints = false
-        locationTextLabel.text = "Last known location:"
-        locationTextLabel.textColor = .lightGray
         
-        locationLabel.translatesAutoresizingMaskIntoConstraints = false
-        locationLabel.text = "Citadel of Ricks"
+        locationView.translatesAutoresizingMaskIntoConstraints = false
+        genderView.translatesAutoresizingMaskIntoConstraints = false
+        episodesView.translatesAutoresizingMaskIntoConstraints = false
         
-        genderTextLabel.translatesAutoresizingMaskIntoConstraints = false
-        genderTextLabel.text = "Gender:"
-        genderTextLabel.textColor = .lightGray
-        
-        genderLabel.translatesAutoresizingMaskIntoConstraints = false
-        genderLabel.text = "Male"
-        
-        episodesTextLabel.translatesAutoresizingMaskIntoConstraints = false
-        episodesTextLabel.text = "Number of episodes:"
-        episodesTextLabel.textColor = .lightGray
-        
-        episodesLabel.translatesAutoresizingMaskIntoConstraints = false
-        episodesLabel.text = "51"
     }
     
     func layout() {
-        
         addSubview(avatarImageView)
         addSubview(nameLabel)
         addSubview(statusAndSpeciesLabel)
-        addSubview(statusIndictatorView)
-        addSubview(stackView)
+        addSubview(statusIndicatorView)
         
-        stackView.addArrangedSubview(locationTextLabel)
-        stackView.addArrangedSubview(locationLabel)
-        stackView.addArrangedSubview(genderTextLabel)
-        stackView.addArrangedSubview(genderLabel)
-        stackView.addArrangedSubview(episodesTextLabel)
-        stackView.addArrangedSubview(episodesLabel)
+        stackView.addArrangedSubview(locationView)
+        stackView.addArrangedSubview(genderView)
+        stackView.addArrangedSubview(episodesView)
         
+        stackView.spacing = 16
+                
         addSubview(stackView)
         
         avatarImageView.widthAnchor.constraint(equalToConstant: avatarImageSize).isActive = true
         avatarImageView.heightAnchor.constraint(equalToConstant: avatarImageSize).isActive = true
         avatarImageView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-        nameLabel.topAnchor.constraint(equalTo: avatarImageView.bottomAnchor, constant: 36).isActive = true
         
+        nameLabel.topAnchor.constraint(equalTo: avatarImageView.bottomAnchor, constant: 36).isActive = true
         nameLabel.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-        //nameLabel.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         nameLabel.leadingAnchor.constraint(equalTo: avatarImageView.leadingAnchor).isActive = true
         trailingAnchor.constraint(equalToSystemSpacingAfter: nameLabel.trailingAnchor, multiplier: 2).isActive = true
         
         statusAndSpeciesLabel.topAnchor.constraint(equalToSystemSpacingBelow: nameLabel.bottomAnchor, multiplier: 2).isActive = true
         statusAndSpeciesLabel.leadingAnchor.constraint(equalTo: nameLabel.leadingAnchor).isActive = true
         
-        statusIndictatorView.widthAnchor.constraint(equalToConstant: 10).isActive = true
-        statusIndictatorView.heightAnchor.constraint(equalToConstant: 10).isActive = true
-        statusIndictatorView.centerYAnchor.constraint(equalTo: statusAndSpeciesLabel.centerYAnchor).isActive = true
-        statusAndSpeciesLabel.leadingAnchor.constraint(equalToSystemSpacingAfter: statusIndictatorView.trailingAnchor, multiplier: 1).isActive = true
+        statusIndicatorView.widthAnchor.constraint(equalToConstant: 10).isActive = true
+        statusIndicatorView.heightAnchor.constraint(equalToConstant: 10).isActive = true
+        statusIndicatorView.centerYAnchor.constraint(equalTo: statusAndSpeciesLabel.centerYAnchor).isActive = true
+        statusAndSpeciesLabel.leadingAnchor.constraint(equalToSystemSpacingAfter: statusIndicatorView.trailingAnchor, multiplier: 1).isActive = true
         
         stackView.leadingAnchor.constraint(equalTo: avatarImageView.leadingAnchor).isActive = true
+        trailingAnchor.constraint(equalToSystemSpacingAfter: stackView.trailingAnchor, multiplier: 2).isActive = true
         stackView.topAnchor.constraint(equalToSystemSpacingBelow: statusAndSpeciesLabel.bottomAnchor, multiplier: 3).isActive = true
+//        stackView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        
     }
 }
 
@@ -175,11 +164,11 @@ extension CharacterDetailsView {
     func configure(with viewModel: ViewModel) {
         avatarImageView.loadImage(at: URL(string: viewModel.characterImageURL)!) // Force unwrapping!
         nameLabel.text = viewModel.characterName
-        statusIndictatorView.backgroundColor = viewModel.characterStatusIndicatorColor
+        statusIndicatorView.backgroundColor = viewModel.characterStatusIndicatorColor
         statusAndSpeciesLabel.text = viewModel.statusAndSpeciesLabel
-        
-        locationLabel.text = viewModel.characterLocation
-        genderLabel.text = viewModel.characterGender
-        episodesLabel.text = viewModel.characterEpisodes
+        locationView.configure(with: viewModel.characterLocation)
+        genderView.configure(with: viewModel.characterGender)
+        episodesView.configure(with: viewModel.characterEpisodes)
+
     }
 }

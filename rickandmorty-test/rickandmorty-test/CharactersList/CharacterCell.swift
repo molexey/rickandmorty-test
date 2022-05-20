@@ -16,7 +16,8 @@ class CharacterCell: UITableViewCell, Configurable {
     let genderLabel = UILabel()
     
     static let reuseID = "CharacterCell"
-    static let rowHeight: CGFloat = 100
+    
+    let avatarImageSize: CGFloat = 100
     
     var model: CharacterCellModel?
     var onReuse: () -> Void = {}
@@ -53,7 +54,8 @@ extension CharacterCell {
         
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
         nameLabel.font = UIFont.preferredFont(forTextStyle: .headline)
-        nameLabel.adjustsFontForContentSizeCategory = true
+        //        nameLabel.adjustsFontForContentSizeCategory = true
+        nameLabel.numberOfLines = 0
         nameLabel.text = "Rick Sanchez"
         
         speciesLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -73,22 +75,28 @@ extension CharacterCell {
     }
     
     private func layout() {
-//        let margins = self.layoutMarginsGuide
-//
-//        avatarImage.leadingAnchor.constraint(equalTo: margins.leadingAnchor).isActive = true
-//        avatarImage.trailingAnchor.constraint(equalTo: margins.trailingAnchor).isActive = true
-        
-        avatarImageView.widthAnchor.constraint(equalToConstant: CharacterCell.rowHeight).isActive = true
-        avatarImageView.heightAnchor.constraint(equalToConstant: CharacterCell.rowHeight).isActive = true
+        avatarImageView.widthAnchor.constraint(equalToConstant: avatarImageSize).isActive = true
+        avatarImageView.heightAnchor.constraint(equalToConstant: avatarImageSize).isActive = true
+        avatarImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8).isActive = true
+        avatarImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8).isActive = true
+//        contentView.bottomAnchor.constraint(greaterThanOrEqualTo: avatarImageView.bottomAnchor, constant: 8).isActive = true
+        avatarImageView.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor, constant: -8).isActive = true
         
         nameLabel.leadingAnchor.constraint(equalToSystemSpacingAfter: avatarImageView.trailingAnchor, multiplier: 2).isActive = true
-        nameLabel.topAnchor.constraint(equalToSystemSpacingBelow: topAnchor, multiplier: 2).isActive = true
+        contentView.trailingAnchor.constraint(equalToSystemSpacingAfter: nameLabel.trailingAnchor, multiplier: 2).isActive = true
+        nameLabel.topAnchor.constraint(equalToSystemSpacingBelow: contentView.topAnchor, multiplier: 2).isActive = true
         
         speciesLabel.leadingAnchor.constraint(equalTo: nameLabel.leadingAnchor).isActive = true
         speciesLabel.topAnchor.constraint(equalToSystemSpacingBelow: nameLabel.bottomAnchor, multiplier: 2).isActive = true
         
         genderLabel.leadingAnchor.constraint(equalTo: nameLabel.leadingAnchor).isActive = true
         genderLabel.topAnchor.constraint(equalToSystemSpacingBelow: speciesLabel.bottomAnchor, multiplier: 1).isActive = true
+//        contentView.bottomAnchor.constraint(greaterThanOrEqualTo: genderLabel.bottomAnchor, constant: 8).isActive = true
+//        contentView.bottomAnchor.constraint(greaterThanOrEqualToSystemSpacingBelow: genderLabel.bottomAnchor, multiplier: 1).isActive = true
+        genderLabel.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor, constant: -8).isActive = true
+
+
     }
+    
     
 }
