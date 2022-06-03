@@ -22,47 +22,7 @@ class CharacterDetailsView: UIView {
     let locationView = DoubleLabelView(titleText: "Last known location:")
     let genderView = DoubleLabelView(titleText: "Gender:")
     let episodesView = DoubleLabelView(titleText: "Number of episodes:")
-    
-    enum Status: String {
-        case alive = "Alive"
-        case dead = "Dead"
-        case unknown = "unknown"
-    }
-    
-    struct ViewModel {
-        let characterImageURL: String
-        let characterName: String
-        let characterStatus: Status
-        let characterSpecies: String
-        let characterLocation: String
-        let characterGender: String
         
-        var characterStatusIndicatorColor: UIColor {
-            switch characterStatus {
-            case .alive:
-                return .systemGreen
-            case .dead:
-                return .systemRed
-            case .unknown:
-                return .systemGray
-            }
-        }
-        
-        var statusAndSpeciesLabel: String {
-            return "\(characterStatus.rawValue) - \(characterSpecies)"
-        }
-        
-        let charactersEpisodesCount: Int?
-        
-        var characterEpisodes: String {
-            if let charactersEpisodesCount = charactersEpisodesCount {
-                return String(charactersEpisodesCount)
-            } else { return "--" }
-        }
-    }
-    
-    let viewModel: ViewModel? = nil
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -161,14 +121,46 @@ extension CharacterDetailsView {
 }
 
 extension CharacterDetailsView {
-    func configure(with viewModel: ViewModel) {
-        avatarImageView.loadImage(at: URL(string: viewModel.characterImageURL)!) // Force unwrapping!
-        nameLabel.text = viewModel.characterName
-        statusIndicatorView.backgroundColor = viewModel.characterStatusIndicatorColor
-        statusAndSpeciesLabel.text = viewModel.statusAndSpeciesLabel
-        locationView.configure(with: viewModel.characterLocation)
-        genderView.configure(with: viewModel.characterGender)
-        episodesView.configure(with: viewModel.characterEpisodes)
+    func configure(with viewModel: CharacterDetailsViewModel) {
+        viewModel.characterImageURL.bind { [weak self] characterImageURL in
+            guard let characterImageURL = characterImageURL else {
+                return
+            }
+            self?.avatarImageView.loadImage(at: characterImageURL)
+        }
+        
+        viewModel.characterName.bind { [weak self] characterName in
+            self?.nameLabel.text = characterName
+        }
+        
+        viewModel.characterStatus.bind { [weak self] characterStatus in
+            var characterStatusIndicatorColor: UIColor {
+                switch characterStatus {
+                case .alive:
+                    return .systemGreen
+                case .dead:
+                    return .systemRed
+                case .unknown:
+                    return .systemGray
+                }
+            }
+            self?.statusIndicatorView.backgroundColor = characterStatusIndicatorColor
+        }
+        
+        viewModel.statusAndSpecies.bind { [weak self] statusAndSpecies in
+            self?.statusAndSpeciesLabel.text = statusAndSpecies
+        }
+        
+        viewModel.characterLocation.bind { [weak self] characterLocation in
+            self?.locationView.configure(with: characterLocation)
+        }
+        
+        viewModel.characterGender.bind { [weak self] characterGender in
+            self?.genderView.configure(with: characterGender)
+        }
 
+        viewModel.characterEpisodes.bind { [weak self] characterEpisodes in
+            self?.episodesView.configure(with: characterEpisodes)
+        }
     }
 }
