@@ -6,8 +6,11 @@
 //
 
 import UIKit
+import Combine
 
 class CharacterDetailsView: UIView {
+    
+    private var cancellables: Set<AnyCancellable> = []
         
     let avatarImageView = UIImageView()
     let avatarImageSize : CGFloat = 200
@@ -122,18 +125,18 @@ extension CharacterDetailsView {
 
 extension CharacterDetailsView {
     func configure(with viewModel: CharacterDetailsViewModel) {
-        viewModel.characterImageURL.bind { [weak self] characterImageURL in
+        viewModel.$characterImageURL.sink { [weak self] characterImageURL in
             guard let characterImageURL = characterImageURL else {
                 return
             }
             self?.avatarImageView.loadImage(at: characterImageURL)
-        }
+        }.store(in: &cancellables)
         
-        viewModel.characterName.bind { [weak self] characterName in
+        viewModel.$characterName.sink { [weak self] characterName in
             self?.nameLabel.text = characterName
-        }
+        }.store(in: &cancellables)
         
-        viewModel.characterStatus.bind { [weak self] characterStatus in
+        viewModel.$characterStatus.sink { [weak self] characterStatus in
             var characterStatusIndicatorColor: UIColor {
                 switch characterStatus {
                 case .alive:
@@ -145,22 +148,22 @@ extension CharacterDetailsView {
                 }
             }
             self?.statusIndicatorView.backgroundColor = characterStatusIndicatorColor
-        }
+        }.store(in: &cancellables)
         
-        viewModel.statusAndSpecies.bind { [weak self] statusAndSpecies in
+        viewModel.$statusAndSpecies.sink { [weak self] statusAndSpecies in
             self?.statusAndSpeciesLabel.text = statusAndSpecies
-        }
+        }.store(in: &cancellables)
         
-        viewModel.characterLocation.bind { [weak self] characterLocation in
+        viewModel.$characterLocation.sink { [weak self] characterLocation in
             self?.locationView.configure(with: characterLocation)
-        }
+        }.store(in: &cancellables)
         
-        viewModel.characterGender.bind { [weak self] characterGender in
+        viewModel.$characterGender.sink { [weak self] characterGender in
             self?.genderView.configure(with: characterGender)
-        }
+        }.store(in: &cancellables)
 
-        viewModel.characterEpisodes.bind { [weak self] characterEpisodes in
+        viewModel.$characterEpisodes.sink { [weak self] characterEpisodes in
             self?.episodesView.configure(with: characterEpisodes)
-        }
+        }.store(in: &cancellables)
     }
 }

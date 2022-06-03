@@ -33,13 +33,13 @@ class CharacterDetailsViewModel {
     }
 
     
-    let characterImageURL: Box<URL?> = Box(nil)
-    let characterName = Box(" ")
-    let characterStatus: Box<Status> = Box(.unknown)
-    let statusAndSpecies = Box(" ")
-    let characterLocation = Box(" ")
-    let characterGender = Box(" ")
-    let characterEpisodes = Box(" ")
+    @Published var characterImageURL: URL? = nil
+    @Published var characterName = " "
+    @Published var characterStatus: Status = .unknown
+    @Published var statusAndSpecies = " "
+    @Published var characterLocation = " "
+    @Published var characterGender = " "
+    @Published var characterEpisodes = " "
 
     func getCharacter(with characterID: String) {
         self.isLoading = true
@@ -65,12 +65,12 @@ class CharacterDetailsViewModel {
         guard let character = character else {
             return
         }
-        self.characterImageURL.value = URL(string: character.image ?? " ")
-        self.characterName.value = character.name ?? " "
-        self.characterStatus.value = CharacterDetailsViewModel.Status(rawValue: character.status ?? " ") ?? .unknown
-        self.statusAndSpecies.value = "\(character.status ?? "unknown") - \(character.species ?? " ")"
-        self.characterLocation.value = character.location?.name ?? " "
-        self.characterGender.value = character.gender ?? " "
-        self.characterEpisodes.value = String(character.episode?.count ?? 0)
+        self.characterImageURL = URL(string: character.image ?? " ")
+        self.characterName = character.name ?? " "
+        self.characterStatus = CharacterDetailsViewModel.Status(rawValue: character.status ?? " ") ?? .unknown
+        self.statusAndSpecies = "\(character.status ?? "unknown") - \(character.species ?? " ")"
+        self.characterLocation = character.location?.name ?? " "
+        self.characterGender = character.gender ?? " "
+        self.characterEpisodes = String(character.episode?.count ?? 0)
     }
 }
