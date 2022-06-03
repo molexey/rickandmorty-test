@@ -11,6 +11,12 @@ class CharacterDetailsViewModel {
     
     var character: Character?
     
+    var isLoading: Bool = false {
+        didSet {
+            self.updateLoadingStatus?()
+        }
+    }
+    
     var alertMessage: String? {
         didSet {
             self.showAlertClosure?()
@@ -18,6 +24,7 @@ class CharacterDetailsViewModel {
     }
     
     var showAlertClosure: (() -> Void)?
+    var updateLoadingStatus: (() -> Void)?
             
     enum Status: String {
         case alive = "Alive"
@@ -35,19 +42,21 @@ class CharacterDetailsViewModel {
     let characterEpisodes = Box(" ")
 
     func getCharacter(with characterID: String) {
-        APICaller.shared.getCharacter(load: true, characterID: characterID) { result in
+        self.isLoading = true
+        APICaller.shared.getCharacter(load: true, characterID: characterID) { [weak self] result in
             DispatchQueue.main.async {
+                self?.isLoading = false
                 switch result {
                 case .success(let character):
-                    self.character = character
+                    self?.character = character
                 case .failure(let error):
                     print(error)
-                    self.alertMessage = error.localizedDescription
+                    self?.alertMessage = error.localizedDescription
                 }
-                guard let character = self.character else {
+                guard let character = self?.character else {
                     return
                 }
-                self.configure(with: character)
+                self?.configure(with: character)
             }
         }
     }
