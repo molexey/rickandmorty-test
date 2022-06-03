@@ -12,29 +12,35 @@ class CharacterDetailsViewController: UIViewController {
     var characterID: Int? = 0
 
     private let characterDetailsView = CharacterDetailsView()
-    private let characterDetailsViewModel = CharacterDetailsViewModel()
+    private let viewModel = CharacterDetailsViewModel()
         
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
         layout()
         if let characterID = characterID {
-            characterDetailsViewModel.getCharacter(with: (String(characterID)))
+            viewModel.getCharacter(with: (String(characterID)))
         }
-        self.characterDetailsView.configure(with: self.characterDetailsViewModel)
+        
+        viewModel.showAlertClosure = { [weak self] () in
+            if let message = self?.viewModel.alertMessage {
+                self?.showErrorAlert(title: "Boom!", message: message)
+            }
+        }
+        self.characterDetailsView.configure(with: self.viewModel)
     }
     
-//    private func showErrorAlert(title: String, message: String) {
-//        let alert = UIAlertController(title: title,
-//                                      message: message,
-//                                      preferredStyle: .alert)
-//
-//        alert.addAction(UIAlertAction(title: "Try again",
-//                                      style: .default,
-//                                      handler: { [self] (action) in self.getCharacter(with: String(characterID!))
-//        }))
-//        present(alert, animated: true, completion:  nil)
-//    }
+    private func showErrorAlert(title: String, message: String) {
+        let alert = UIAlertController(title: title,
+                                      message: message,
+                                      preferredStyle: .alert)
+
+        alert.addAction(UIAlertAction(title: "Try again",
+                                      style: .default,
+                                      handler: { [self] (action) in viewModel.getCharacter(with: String(characterID!))
+        }))
+        present(alert, animated: true, completion:  nil)
+    }
 }
 
 extension CharacterDetailsViewController {

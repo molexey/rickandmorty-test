@@ -10,12 +10,21 @@ import Foundation
 class CharacterDetailsViewModel {
     
     var character: Character?
+    
+    var alertMessage: String? {
+        didSet {
+            self.showAlertClosure?()
+        }
+    }
+    
+    var showAlertClosure: (() -> Void)?
             
     enum Status: String {
         case alive = "Alive"
         case dead = "Dead"
         case unknown = "unknown"
     }
+
     
     let characterImageURL: Box<URL?> = Box(nil)
     let characterName = Box(" ")
@@ -33,7 +42,7 @@ class CharacterDetailsViewModel {
                     self.character = character
                 case .failure(let error):
                     print(error)
-//                     self.showErrorAlert(title: "Boom!", message: error.localizedDescription)
+                    self.alertMessage = error.localizedDescription
                 }
                 guard let character = self.character else {
                     return
