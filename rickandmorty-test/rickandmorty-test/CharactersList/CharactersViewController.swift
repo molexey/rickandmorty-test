@@ -6,8 +6,11 @@
 //
 
 import UIKit
+import Combine
 
 class CharactersViewController: UIViewController {
+    
+//    var viewModel: CharactersListViewModel
 
     var characters: [Character] = []
     var currentInfо: Info? = nil
@@ -113,7 +116,7 @@ extension CharactersViewController {
 
 extension CharactersViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let viewController = CharacterDetailsViewController()
+        let viewController = CharacterDetailsViewControllerNew()
 //        let viewModel = ViewModel()
         let character: Character = characters[indexPath.row]
         viewController.characterID = character.id
