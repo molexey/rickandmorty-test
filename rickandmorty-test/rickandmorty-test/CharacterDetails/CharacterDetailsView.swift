@@ -1,5 +1,5 @@
 //
-//  CharacterDetailsView2.swift
+//  CharacterDetailsView.swift
 //  rickandmorty-test
 //
 //  Created by molexey on 19.05.2022.
@@ -51,25 +51,25 @@ extension CharacterDetailsView {
         avatarImageView.clipsToBounds = true
         
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
-        nameLabel.text = "Rick Sanchez abc abc abc"
+        nameLabel.text = "Name"
         nameLabel.font = UIFont.boldSystemFont(ofSize: 30)
         nameLabel.numberOfLines = 0
         
         statusIndicatorView.translatesAutoresizingMaskIntoConstraints = false
-        statusIndicatorView.backgroundColor = .systemGreen
+        statusIndicatorView.backgroundColor = .systemGray
         statusIndicatorView.layer.cornerRadius = 5
         
         statusAndSpeciesLabel.translatesAutoresizingMaskIntoConstraints = false
-        statusAndSpeciesLabel.text = "Alive - Human"
+        statusAndSpeciesLabel.text = "Status - Species"
         
-        locationView.configure(with: "Citadel of Ricks")
+        locationView.configure(with: " ")
         locationView.translatesAutoresizingMaskIntoConstraints = false
 //        locationView.heightAnchor.constraint(equalToConstant: 50).isActive = true
         
-        genderView.configure(with: "Male")
+        genderView.configure(with: " ")
         locationView.translatesAutoresizingMaskIntoConstraints = false
         
-        episodesView.configure(with: "51")
+        episodesView.configure(with: " ")
         locationView.translatesAutoresizingMaskIntoConstraints = false
         
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -124,46 +124,36 @@ extension CharacterDetailsView {
 }
 
 extension CharacterDetailsView {
-    func configure(with viewModel: CharacterDetailsViewModel) {
-        viewModel.$characterImageURL.sink { [weak self] characterImageURL in
-            guard let characterImageURL = characterImageURL else {
-                return
+    func configure(with viewModel: CharacterDetailsViewModel.CharacterDetail) {
+        guard let characterImageURL = viewModel.characterImageURL else { return }
+        self.avatarImageView.loadImage(at: characterImageURL)
+        
+        guard let characterImage = viewModel.characterName else { return }
+        self.nameLabel.text = characterImage
+        
+        guard let characterStatus = viewModel.characterStatus else { return }
+        var characterStatusIndicatorColor: UIColor {
+            switch characterStatus {
+            case .alive:
+                return .systemGreen
+            case .dead:
+                return .systemRed
+            case .unknown:
+                return .systemGray
             }
-            self?.avatarImageView.loadImage(at: characterImageURL)
-        }.store(in: &cancellables)
+        }
+        self.statusIndicatorView.backgroundColor = characterStatusIndicatorColor
         
-        viewModel.$characterName.sink { [weak self] characterName in
-            self?.nameLabel.text = characterName
-        }.store(in: &cancellables)
+        let statusAndSpecies = viewModel.statusAndSpecies
+        self.statusAndSpeciesLabel.text = statusAndSpecies
         
-        viewModel.$characterStatus.sink { [weak self] characterStatus in
-            var characterStatusIndicatorColor: UIColor {
-                switch characterStatus {
-                case .alive:
-                    return .systemGreen
-                case .dead:
-                    return .systemRed
-                case .unknown:
-                    return .systemGray
-                }
-            }
-            self?.statusIndicatorView.backgroundColor = characterStatusIndicatorColor
-        }.store(in: &cancellables)
+        guard let characterLocation = viewModel.characterLocation else { return }
+        self.locationView.configure(with: characterLocation)
         
-        viewModel.$statusAndSpecies.sink { [weak self] statusAndSpecies in
-            self?.statusAndSpeciesLabel.text = statusAndSpecies
-        }.store(in: &cancellables)
+        guard let characterGender = viewModel.characterGender else { return }
+        self.genderView.configure(with: characterGender)
         
-        viewModel.$characterLocation.sink { [weak self] characterLocation in
-            self?.locationView.configure(with: characterLocation)
-        }.store(in: &cancellables)
-        
-        viewModel.$characterGender.sink { [weak self] characterGender in
-            self?.genderView.configure(with: characterGender)
-        }.store(in: &cancellables)
-
-        viewModel.$characterEpisodes.sink { [weak self] characterEpisodes in
-            self?.episodesView.configure(with: characterEpisodes)
-        }.store(in: &cancellables)
+        guard let characterEpisodes = viewModel.characterEpisodes else { return }
+        self.episodesView.configure(with: characterEpisodes)
     }
 }

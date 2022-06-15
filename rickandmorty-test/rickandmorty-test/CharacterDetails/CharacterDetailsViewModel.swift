@@ -2,75 +2,96 @@
 //  CharacterDetailsViewModel.swift
 //  rickandmorty-test
 //
-//  Created by molexey on 31.05.2022.
+//  Created by molexey on 14.06.2022.
 //
 
 import Foundation
+import Combine
 
-class CharacterDetailsViewModel {
+final class CharacterDetailsViewModel: ObservableObject {
+    @Published private(set) var state: State = .idle
+        
+    var characterID: Int
     
-    var character: Character?
+    init(characterID: Int) {
+        self.characterID = characterID
+    }
     
-    var isLoading: Bool = false {
-        didSet {
-            self.updateLoadingStatus?()
+    func send(event: Event) {
+        switch event {
+        case .onAppear:
+            state = .loading
+            self.getCharacter(with: String(characterID))
+        case .onLoaded:
+            state = .idle
+        case .onReload:
+            state = .loading
+            self.getCharacter(with: String(characterID))
         }
     }
+}
+
+extension CharacterDetailsViewModel {
+    enum State {
+        case idle
+        case loading
+        case loaded(CharacterDetail)
+        case error(Error)
+    }
     
-    var alertMessage: String? {
-        didSet {
-            self.showAlertClosure?()
+    enum Event {
+        case onAppear
+        case onLoaded
+        case onReload
+        //case onFailedToLoad(Error)
+    }
+        
+    struct CharacterDetail {
+        let id: Int
+        let characterImageURL: URL?
+        let characterName: String?
+        let characterStatus: Status?
+        let statusAndSpecies: String?
+        let characterLocation: String?
+        let characterGender: String?
+        let characterEpisodes: String?
+        
+        enum Status: String {
+            case alive = "Alive"
+            case dead = "Dead"
+            case unknown = "unknown"
+        }
+        
+        init(character: Character) {
+            id = character.id ?? -1
+            characterImageURL = URL(string: character.image ?? " ")
+            characterName = character.name ?? " "
+            characterStatus = Self.Status(rawValue: character.status ?? " ") ?? .unknown
+            statusAndSpecies = "\(character.status ?? "unknown") - \(character.species ?? " ")"
+            characterLocation = character.location?.name ?? " "
+            characterGender = character.gender ?? " "
+            characterEpisodes = String(character.episode?.count ?? 0)
         }
     }
-    
-    var showAlertClosure: (() -> Void)?
-    var updateLoadingStatus: (() -> Void)?
-            
-    enum Status: String {
-        case alive = "Alive"
-        case dead = "Dead"
-        case unknown = "unknown"
-    }
+}
 
-    
-    @Published var characterImageURL: URL? = nil
-    @Published var characterName = " "
-    @Published var characterStatus: Status = .unknown
-    @Published var statusAndSpecies = " "
-    @Published var characterLocation = " "
-    @Published var characterGender = " "
-    @Published var characterEpisodes = " "
 
-    func getCharacter(with characterID: String) {
-        self.isLoading = true
+extension CharacterDetailsViewModel {
+   private func getCharacter(with characterID: String) {
+//        self.isLoading = true
+//        state.self = .loading(characterID)
+        
         APICaller.shared.getCharacter(load: true, characterID: characterID) { [weak self] result in
             DispatchQueue.main.async {
-                self?.isLoading = false
                 switch result {
                 case .success(let character):
-                    self?.character = character
+                    let characterDetail = CharacterDetail(character: character)
+                    self!.state = .loaded(characterDetail)
                 case .failure(let error):
                     print(error)
-                    self?.alertMessage = error.localizedDescription
+                    self!.state = .error(error)
                 }
-                guard let character = self?.character else {
-                    return
-                }
-                self?.configure(with: character)
             }
         }
-    }
-    
-    private func configure(with: Character) {
-        guard let character = character else {
-            return
-        }
-        self.characterImageURL = URL(string: character.image ?? " ")
-        self.characterName = character.name ?? " "
-        self.characterStatus = CharacterDetailsViewModel.Status(rawValue: character.status ?? " ") ?? .unknown
-        self.statusAndSpecies = "\(character.status ?? "unknown") - \(character.species ?? " ")"
-        self.characterLocation = character.location?.name ?? " "
-        self.characterGender = character.gender ?? " "
-        self.characterEpisodes = String(character.episode?.count ?? 0)
     }
 }

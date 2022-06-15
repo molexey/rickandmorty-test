@@ -6,48 +6,73 @@
 //
 
 import UIKit
+import Combine
 
 class CharacterDetailsViewController: UIViewController {
     
-    var characterID: Int? = 0
-
     private let characterDetailsView = CharacterDetailsView()
-    private let viewModel = CharacterDetailsViewModel()
-        
+    private let viewModel: CharacterDetailsViewModel
+    private var cancellable: AnyCancellable?
+    
+    init(viewModel: CharacterDetailsViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(false)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
         layout()
-        if let characterID = characterID {
-            viewModel.getCharacter(with: (String(characterID)))
+
+        viewModel.send(event: .onAppear)
+        cancellable = viewModel.$state
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] state in
+            self?.render(state)
         }
-        
-        viewModel.showAlertClosure = { [weak self] () in
-            if let message = self?.viewModel.alertMessage {
-                self?.showErrorAlert(title: "Boom!", message: message)
-            }
+    }
+    
+    private func render(_ state: CharacterDetailsViewModel.State) {
+        switch viewModel.state {
+        case .idle:
+            idle()
+        case .loading:
+            showActivityIndicator()
+        case .loaded(let characterDetail):
+            characterDetailsView.configure(with: characterDetail)
+            UIView.animate(withDuration: 0.2, animations: {
+                self.characterDetailsView.alpha = 1.0
+            })
+        case .error(let error):
+            showErrorAlert(title: "Boom!", message: error.localizedDescription)
         }
+    }
+    
+    private func idle() {
         
-        viewModel.updateLoadingStatus = { [weak self] () in
-            let isLoading = self?.viewModel.isLoading //?? false
-            if !isLoading! {
-                UIView.animate(withDuration: 0.2, animations: {
-                    self?.characterDetailsView.alpha = 1.0
-                })
-            }
-        }
+    }
+    
+    private func showActivityIndicator() {
         
-        self.characterDetailsView.configure(with: self.viewModel)
     }
     
     private func showErrorAlert(title: String, message: String) {
         let alert = UIAlertController(title: title,
                                       message: message,
                                       preferredStyle: .alert)
-
+        
         alert.addAction(UIAlertAction(title: "Try again",
                                       style: .default,
-                                      handler: { [self] (action) in viewModel.getCharacter(with: String(characterID!))
+                                      handler: { [self] (action) in
+            viewModel.send(event: .onReload)
         }))
         present(alert, animated: true, completion:  nil)
     }
@@ -56,8 +81,7 @@ class CharacterDetailsViewController: UIViewController {
 extension CharacterDetailsViewController {
     private func setup() {
         characterDetailsView.translatesAutoresizingMaskIntoConstraints = false
-//        characterDetailsView.isHidden = true
-        characterDetailsView.alpha = 0.3
+        characterDetailsView.alpha = 0.2
     }
     
     private func layout() {
