@@ -11,7 +11,7 @@ import CollectionAndTableViewCompatible
 
 class CharactersViewController: UIViewController {
     
-    private let viewModel: CharactersListViewModel
+    public let viewModel: CharactersListViewModel
     private var cancellable: AnyCancellable?
         
     var tableView = UITableView()

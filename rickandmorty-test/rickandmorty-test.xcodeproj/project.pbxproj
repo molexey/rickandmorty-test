@@ -24,6 +24,9 @@
 		CED9DF24285874A800D0C8EA /* CharacterDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED9DF23285874A800D0C8EA /* CharacterDetailsViewModel.swift */; };
 		CED9DF2A28591B0E00D0C8EA /* CharacterDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED9DF2928591B0E00D0C8EA /* CharacterDetailsView.swift */; };
 		CED9DF2C28591B6E00D0C8EA /* CharacterDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED9DF2B28591B6E00D0C8EA /* CharacterDetailsViewController.swift */; };
+		CEF3BA02285B8317000574EC /* AppFlowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF3BA01285B8317000574EC /* AppFlowController.swift */; };
+		CEF3BA04285B83D4000574EC /* ViewController + Extentsion.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF3BA03285B83D4000574EC /* ViewController + Extentsion.swift */; };
+		CEF3BA06285B8436000574EC /* CharactersFlowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF3BA05285B8436000574EC /* CharactersFlowController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +47,9 @@
 		CED9DF23285874A800D0C8EA /* CharacterDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterDetailsViewModel.swift; sourceTree = "<group>"; };
 		CED9DF2928591B0E00D0C8EA /* CharacterDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterDetailsView.swift; sourceTree = "<group>"; };
 		CED9DF2B28591B6E00D0C8EA /* CharacterDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterDetailsViewController.swift; sourceTree = "<group>"; };
+		CEF3BA01285B8317000574EC /* AppFlowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFlowController.swift; sourceTree = "<group>"; };
+		CEF3BA03285B83D4000574EC /* ViewController + Extentsion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ViewController + Extentsion.swift"; sourceTree = "<group>"; };
+		CEF3BA05285B8436000574EC /* CharactersFlowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharactersFlowController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,6 +80,7 @@
 			isa = PBXGroup;
 			children = (
 				CE306EC1282291E20042E031 /* CharactersViewController.swift */,
+				CEF3BA05285B8436000574EC /* CharactersFlowController.swift */,
 				CEC020DD2857CCDF00777D39 /* CharactersListViewModel.swift */,
 				CE7026722822BD4100D0D208 /* CharacterCell.swift */,
 				CEB118D028258A0100AB7C3C /* CharacterCellModel.swift */,
@@ -101,6 +108,7 @@
 			isa = PBXGroup;
 			children = (
 				CE306EBD282291E20042E031 /* AppDelegate.swift */,
+				CEF3BA01285B8317000574EC /* AppFlowController.swift */,
 				CE08D1822837051F0089C68F /* CharactersList */,
 				CE08D1812836F2BB0089C68F /* CharacterDetails */,
 				CE7FC61E2823F387005F3546 /* Model */,
@@ -108,6 +116,7 @@
 				CE306EC6282291E20042E031 /* Assets.xcassets */,
 				CE306EC8282291E20042E031 /* LaunchScreen.storyboard */,
 				CE306ECB282291E20042E031 /* Info.plist */,
+				CEF3BA03285B83D4000574EC /* ViewController + Extentsion.swift */,
 			);
 			path = "rickandmorty-test";
 			sourceTree = "<group>";
@@ -211,7 +220,10 @@
 				CED9DF2A28591B0E00D0C8EA /* CharacterDetailsView.swift in Sources */,
 				CE306EC2282291E20042E031 /* CharactersViewController.swift in Sources */,
 				CEC020DE2857CCDF00777D39 /* CharactersListViewModel.swift in Sources */,
+				CEF3BA02285B8317000574EC /* AppFlowController.swift in Sources */,
 				CED9DF24285874A800D0C8EA /* CharacterDetailsViewModel.swift in Sources */,
+				CEF3BA06285B8436000574EC /* CharactersFlowController.swift in Sources */,
+				CEF3BA04285B83D4000574EC /* ViewController + Extentsion.swift in Sources */,
 				CE7FC61A2823F2CC005F3546 /* APICaller.swift in Sources */,
 				CE306EBE282291E20042E031 /* AppDelegate.swift in Sources */,
 				CEB118D128258A0100AB7C3C /* CharacterCellModel.swift in Sources */,
