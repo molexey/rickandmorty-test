@@ -7,13 +7,14 @@
 
 import Foundation
 import Combine
+import CollectionAndTableViewCompatible
 
 final class CharactersListViewModel: ObservableObject {
     @Published private(set) var state = State.idle
     private var page: Int
     public var characters: [Character] = []
     private var currentInfо: Info? = nil
-    private var dataSource: CharactersTableViewDataSource!
+    var data: [TableViewCompatible] = []
     
     public var selectedCharacter: ((Int) -> Void)?
     
@@ -50,7 +51,7 @@ extension CharactersListViewModel {
     enum State {
         case idle
         case loading
-        case loaded([Character])
+        case loaded
         case error(Error)
     }
     
@@ -61,18 +62,6 @@ extension CharactersListViewModel {
         case onLoaded
         case onReload
     }
-//
-//    struct Character: Identifiable {
-//        let id: Int
-//        let name: String
-//        let avatar: String//URL?
-//
-//        init(character: Character) {
-//            id = character.id
-//            name = character.name
-//            avatar = character.avatar
-//        }
-//    }
 }
 
 extension CharactersListViewModel {
@@ -84,13 +73,15 @@ extension CharactersListViewModel {
                     self.currentInfо = response.info
                     if let characters = response.results {
                         self.characters.append(contentsOf: characters)
-                        self.dataSource.data.append(contentsOf: self.characters.map({CharacterCellModel(character: $0)}))
+                        self.data.append(contentsOf: self.characters.map({CharacterCellModel(character: $0)}))
                     }
+                    self.state = .loaded
+                    
                 case .failure(let error):
                     print(error)
                     self.state = .error(error)
                 }
-                self.dataSource.data = self.characters.map({CharacterCellModel(character: $0)})
+//                self.data = self.characters.map({CharacterCellModel(character: $0)})
             }
         }
     }

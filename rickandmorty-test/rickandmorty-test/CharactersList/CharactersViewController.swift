@@ -7,6 +7,7 @@
 
 import UIKit
 import Combine
+import CollectionAndTableViewCompatible
 
 class CharactersViewController: UIViewController {
     
@@ -14,10 +15,6 @@ class CharactersViewController: UIViewController {
     private var cancellable: AnyCancellable?
         
     var tableView = UITableView()
-//    var dataSource: CharactersTableViewDataSource!
-//    var characters: [Character] = []
-//    var currentInfо: Info? = nil
-//    var page = 1
     
     init(viewModel: CharactersListViewModel) {
         self.viewModel = viewModel
@@ -47,7 +44,7 @@ class CharactersViewController: UIViewController {
             idle()
         case .loading:
             showActivityIndicator()
-        case .loaded(_):
+        case .loaded:
             self.tableView.reloadData()
         case .error(let error):
             showErrorAlert(title: "Boom!", message: error.localizedDescription)
@@ -57,8 +54,8 @@ class CharactersViewController: UIViewController {
 
 extension CharactersViewController {
     private func setup() {
-        dataSource = CharactersTableViewDataSource(data: [], tableView: tableView)
         tableView.delegate = self
+        tableView.dataSource = self
         tableView.register(CharacterCell.self, forCellReuseIdentifier: CharacterCell.reuseID)
         tableView.rowHeight = UITableView.automaticDimension
         tableView.tableFooterView = UIView()
@@ -121,9 +118,20 @@ extension CharactersViewController {
 extension CharactersViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let character: Character = viewModel.characters[indexPath.row]
-        let viewModel = CharacterDetailsViewModel(characterID: character.id!)
+        let viewModel = CharacterDetailsViewModel(characterID: character.id!) //
         let viewController = CharacterDetailsViewController(viewModel: viewModel)
         navigationController?.pushViewController(viewController, animated: true)
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+}
+
+extension CharactersViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return viewModel.data.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cellModel = viewModel.data[indexPath.row]
+        return cellModel.cellForTableView(tableView: tableView, atIndexPath: indexPath)
     }
 }
