@@ -10,48 +10,97 @@ import Combine
 
 final class CharactersListViewModel: ObservableObject {
     @Published private(set) var state = State.idle
-    private var bag = Set<AnyCancellable>()
-    private let input = PassthroughSubject<Event, Never>()
+    private var page: Int
+    public var characters: [Character] = []
+    private var currentInfо: Info? = nil
+    private var dataSource: CharactersTableViewDataSource!
     
-//    init() {
-//        .assign(to: \.state, on: self)
-//        .store(in: &bag)
-//    }
+    public var selectedCharacter: ((Int) -> Void)?
     
-    deinit {
-        bag.removeAll()
+    private let apiCaller = APICaller.shared
+    
+    init(page: Int) {
+        self.page = page
     }
     
     func send(event: Event) {
-        input.send(event)
+        switch event {
+        case .onAppear:
+            state = .loading
+            getCharacters(with: String(page))
+            
+        case .onLoaded:
+            state = .idle
+            
+        case .onLoadMore:
+            state = .loading
+            loadMoreCharacters()
+            
+        case .onSelect(let characterID):
+            selectedCharacter?(characterID)
+            
+        case .onReload:
+            state = .loading
+            getCharacters(with: String(page))
+        }
     }
-    
 }
 
 extension CharactersListViewModel {
     enum State {
         case idle
         case loading
-        case loaded([ListItem])
+        case loaded([Character])
         case error(Error)
     }
     
     enum Event {
         case onAppear
-        case onSelectCharacters(Int)
-        case onCharactersLoaded([ListItem])
-        case onFailedToLoadCharacters(Error)
+        case onLoadMore
+        case onSelect(Int)
+        case onLoaded
+        case onReload
+    }
+//
+//    struct Character: Identifiable {
+//        let id: Int
+//        let name: String
+//        let avatar: String//URL?
+//
+//        init(character: Character) {
+//            id = character.id
+//            name = character.name
+//            avatar = character.avatar
+//        }
+//    }
+}
+
+extension CharactersListViewModel {
+    private func getCharacters(with param: String) {
+        APICaller.shared.getCharacters(load: true, query: param) { result in
+            DispatchQueue.main.async { [self] in
+                switch result {
+                case .success(let response):
+                    self.currentInfо = response.info
+                    if let characters = response.results {
+                        self.characters.append(contentsOf: characters)
+                        self.dataSource.data.append(contentsOf: self.characters.map({CharacterCellModel(character: $0)}))
+                    }
+                case .failure(let error):
+                    print(error)
+                    self.state = .error(error)
+                }
+                self.dataSource.data = self.characters.map({CharacterCellModel(character: $0)})
+            }
+        }
     }
     
-    struct ListItem: Identifiable {
-        let id: Int
-        let name: String
-        let avatar: String//URL?
-        
-        init(character: Character) {
-            id = character.id!
-            name = character.name!
-            avatar = character.image!
-        }
+    private func loadMoreCharacters() {
+        let hasNextPage = (currentInfо?.next != nil)
+        //activityIndicator.isHidden = true
+        guard hasNextPage, !self.apiCaller.isLoading else { return }
+        page += 1
+        getCharacters(with: String(page))
+        //activityIndicator.isHidden = false
     }
 }

@@ -13,8 +13,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        let charactersViewController = CharactersViewController(nibName: nil, bundle: nil)
-        let navigationController = UINavigationController(rootViewController: charactersViewController)
+        let viewModel = CharactersListViewModel(page: 1)
+        let viewController = CharactersViewController(viewModel: viewModel)
+        let navigationController = UINavigationController(rootViewController: viewController)
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.makeKeyAndVisible()
         window?.backgroundColor = .systemBackground

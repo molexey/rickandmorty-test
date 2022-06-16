@@ -10,28 +10,52 @@ import Combine
 
 class CharactersViewController: UIViewController {
     
-//    var viewModel: CharactersListViewModel
-
-    var characters: [Character] = []
-    var currentInfо: Info? = nil
-    var page = 1
+    private let viewModel: CharactersListViewModel
+    private var cancellable: AnyCancellable?
         
     var tableView = UITableView()
-    var dataSource: CharactersTableViewDataSource!
+//    var dataSource: CharactersTableViewDataSource!
+//    var characters: [Character] = []
+//    var currentInfо: Info? = nil
+//    var page = 1
     
-    let apiCaller = APICaller.shared
+    init(viewModel: CharactersListViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
     
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "Characters"
         setup()
-//        fetchCharacters()
-        getCharacters(with: String(page))
+        
+        viewModel.send(event: .onAppear)
+        cancellable = viewModel.$state
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] state in
+                self?.render(state)
+            }
+    }
+    
+    private func render(_ state: CharactersListViewModel.State) {
+        switch viewModel.state {
+        case .idle:
+            idle()
+        case .loading:
+            showActivityIndicator()
+        case .loaded(_):
+            self.tableView.reloadData()
+        case .error(let error):
+            showErrorAlert(title: "Boom!", message: error.localizedDescription)
+        }
     }
 }
 
 extension CharactersViewController {
-    
     private func setup() {
         dataSource = CharactersTableViewDataSource(data: [], tableView: tableView)
         tableView.delegate = self
@@ -49,16 +73,7 @@ extension CharactersViewController {
             tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
-    
-    private func loadMoreCharacters() {
-        let hasNextPage = (currentInfо?.next != nil)
-        //activityIndicator.isHidden = true
-        guard hasNextPage, !self.apiCaller.isLoading else { return }
-        page += 1
-        getCharacters(with: String(page))
-        //activityIndicator.isHidden = false
-    }
-    
+        
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         if !decelerate {
             stoppedScrolling(scrollView)
@@ -77,29 +92,18 @@ extension CharactersViewController {
         
         if offsetY > contentHeight - height - offset {
             //activityIndicator.isHidden = false
-            loadMoreCharacters()
+            viewModel.send(event: .onLoadMore)
         }
     }
     
-    private func getCharacters(with param: String) {
-        APICaller.shared.getCharacters(load: true, query: param) { result in
-            DispatchQueue.main.async { [self] in
-                switch result {
-                case .success(let response):
-                    self.currentInfо = response.info
-                    if let characters = response.results {
-                    self.characters.append(contentsOf: characters)
-                        self.dataSource.data.append(contentsOf: self.characters.map({CharacterCellModel(character: $0)}))
-                    }
-                case .failure(let error):
-                    print(error)
-                    self.showErrorAlert(title: "Boom!", message: error.localizedDescription)
-                }
-                self.dataSource.data = self.characters.map({CharacterCellModel(character: $0)})
-            }
-        }
-    }
+    private func idle() {
         
+    }
+    
+    private func showActivityIndicator() {
+        
+    }
+    
     private func showErrorAlert(title: String, message: String) {
         let alert = UIAlertController(title: title,
                                       message: message,
@@ -107,36 +111,19 @@ extension CharactersViewController {
         
         alert.addAction(UIAlertAction(title: "Try again",
                                       style: .default,
-                                      handler: { [self] (action) in self.getCharacters(with: String(page))
+                                      handler: { [self] (action) in
+            viewModel.send(event: .onReload)
         }))
         present(alert, animated: true, completion:  nil)
     }
-    
 }
 
 extension CharactersViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let character: Character = characters[indexPath.row]
+        let character: Character = viewModel.characters[indexPath.row]
         let viewModel = CharacterDetailsViewModel(characterID: character.id!)
         let viewController = CharacterDetailsViewController(viewModel: viewModel)
         navigationController?.pushViewController(viewController, animated: true)
         tableView.deselectRow(at: indexPath, animated: true)
-    }
-}
-
-extension CharactersViewController {
-    private func fetchCharacters() {
-        let character1 = CharacterCellModel(avatarImage: "https://rickandmortyapi.com/api/character/avatar/1.jpeg", name: "Rick Sanchez" , species: "Human", gender: "Male")
-
-        let character2 = CharacterCellModel(avatarImage: "https://rickandmortyapi.com/api/character/avatar/2.jpeg", name: "Morty Superlongnastname Name Name" , species: "Human", gender: "Male")
-        
-        let character3 = CharacterCellModel(avatarImage: "https://rickandmortyapi.com/api/character/avatar/3.jpeg", name: "Summer Smith" , species: "Human", gender: "Female")
-
-        var mockCharacters = [CharacterCellModel]()
-        mockCharacters.append(character1)
-        mockCharacters.append(character2)
-        mockCharacters.append(character3)
-        
-        self.dataSource.data = mockCharacters
     }
 }
