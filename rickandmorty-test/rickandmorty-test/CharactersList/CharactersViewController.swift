@@ -117,10 +117,8 @@ extension CharactersViewController {
 
 extension CharactersViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let character: Character = viewModel.characters[indexPath.row]
-        let viewModel = CharacterDetailsViewModel(characterID: character.id!) //
-        let viewController = CharacterDetailsViewController(viewModel: viewModel)
-        navigationController?.pushViewController(viewController, animated: true)
+        guard let cellModel: CharacterCellModel = viewModel.data[indexPath.row] as? CharacterCellModel else { return }
+        self.viewModel.send(event: .onSelect(cellModel.characterID))
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }

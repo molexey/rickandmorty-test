@@ -22,8 +22,6 @@ final class CharacterDetailsViewModel: ObservableObject {
         case .onAppear:
             state = .loading
             self.getCharacter(with: String(characterID))
-        case .onLoaded:
-            state = .idle
         case .onReload:
             state = .loading
             self.getCharacter(with: String(characterID))
@@ -41,9 +39,7 @@ extension CharacterDetailsViewModel {
     
     enum Event {
         case onAppear
-        case onLoaded
         case onReload
-        //case onFailedToLoad(Error)
     }
         
     struct CharacterDetail {
@@ -77,19 +73,21 @@ extension CharacterDetailsViewModel {
 
 
 extension CharacterDetailsViewModel {
-   private func getCharacter(with characterID: String) {
-//        self.isLoading = true
-//        state.self = .loading(characterID)
+    private func getCharacter(with characterID: String) {
+        //        self.isLoading = true
+        //        state.self = .loading(characterID)
         
         APICaller.shared.getCharacter(load: true, characterID: characterID) { [weak self] result in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let character):
                     let characterDetail = CharacterDetail(character: character)
-                    self!.state = .loaded(characterDetail)
+                    guard let self = self else { return }
+                    self.state = .loaded(characterDetail)
                 case .failure(let error):
                     print(error)
-                    self!.state = .error(error)
+                    guard let self = self else { return }
+                    self.state = .error(error)
                 }
             }
         }

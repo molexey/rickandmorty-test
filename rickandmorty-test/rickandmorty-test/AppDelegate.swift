@@ -21,6 +21,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.backgroundColor = .systemBackground
         window?.rootViewController = navigationController
         
+        viewModel.selectedCharacter = { [weak self] characterID in
+            let viewModel = CharacterDetailsViewModel(characterID: characterID)
+            let viewController = CharacterDetailsViewController(viewModel: viewModel)
+            navigationController.pushViewController(viewController, animated: true)
+        }
+    
         return true
     }
 }

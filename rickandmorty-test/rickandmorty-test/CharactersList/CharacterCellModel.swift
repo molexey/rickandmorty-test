@@ -11,6 +11,7 @@ class CharacterCellModel: NSObject, TableViewCompatible {
     
     let reuseIdentifier: String = "CharacterCell"
     
+    let characterID: Int
     let avatarImage: String
     let name: String
     let species: String
@@ -20,7 +21,8 @@ class CharacterCellModel: NSObject, TableViewCompatible {
     var editable: Bool = false
     var movable: Bool = false
     
-    init(avatarImage: String, name: String, species: String, gender: String) {
+    init(characterID: Int, avatarImage: String, name: String, species: String, gender: String) {
+        self.characterID = characterID
         self.avatarImage = avatarImage
         self.name = name
         self.species = species
@@ -28,7 +30,7 @@ class CharacterCellModel: NSObject, TableViewCompatible {
     }
     
     convenience init(character: Character) {
-        self.init(avatarImage: character.image ?? "", name: character.name ?? "", species: character.species ?? "", gender: character.gender ?? "")
+        self.init(characterID: character.id ?? -1, avatarImage: character.image ?? "", name: character.name ?? "", species: character.species ?? "", gender: character.gender ?? "")
     }
     
     func cellForTableView(tableView: UITableView, atIndexPath indexPath: IndexPath) -> UITableViewCell {
