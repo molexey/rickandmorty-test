@@ -71,22 +71,17 @@ extension CharacterDetailsViewModel {
     }
 }
 
-
 extension CharacterDetailsViewModel {
     private func getCharacter(with characterID: String) {
-        //        self.isLoading = true
-        //        state.self = .loading(characterID)
-        
         APICaller.shared.getCharacter(load: true, characterID: characterID) { [weak self] result in
             DispatchQueue.main.async {
+                guard let self = self else { return }
                 switch result {
                 case .success(let character):
                     let characterDetail = CharacterDetail(character: character)
-                    guard let self = self else { return }
                     self.state = .loaded(characterDetail)
                 case .failure(let error):
                     print(error)
-                    guard let self = self else { return }
                     self.state = .error(error)
                 }
             }

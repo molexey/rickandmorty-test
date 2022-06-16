@@ -60,14 +60,15 @@ extension CharactersListViewModel {
 extension CharactersListViewModel {
     private func getCharacters(with param: String) {
         APICaller.shared.getCharacters(load: true, query: param) { result in
-            DispatchQueue.main.async { [self] in
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self else { return }
                 switch result {
                 case .success(let response):
                     self.currentInfо = response.info
                     if let characters = response.results {
                         self.data.append(contentsOf: characters.map({CharacterCellModel(character: $0)}))
                     }
-                    print(data.count)
+                    print(self.data.count)
                     self.state = .loaded
                     
                 case .failure(let error):
