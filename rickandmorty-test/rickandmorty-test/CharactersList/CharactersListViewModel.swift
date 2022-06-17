@@ -13,12 +13,13 @@ final class CharactersListViewModel: ObservableObject {
     @Published private(set) var state = State.idle
     private var page: Int
     private var currentInfо: Info? = nil
-    private let apiCaller = APICaller.shared
+    private let apiService: APIServiceProtocol
     public var data: [TableViewCompatible] = []
     public var selectedCharacter: ((Int) -> Void)?
     
-    init(page: Int) {
+    init(page: Int, apiService: APIServiceProtocol = APIService.shared) {
         self.page = page
+        self.apiService = apiService
     }
     
     func send(event: Event) {
@@ -58,8 +59,8 @@ extension CharactersListViewModel {
 }
 
 extension CharactersListViewModel {
-    private func getCharacters(with param: String) {
-        APICaller.shared.getCharacters(load: true, query: param) { result in
+    public func getCharacters(with param: String) {
+        apiService.getCharacters(load: true, query: param) { result in
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else { return }
                 switch result {
@@ -82,7 +83,7 @@ extension CharactersListViewModel {
     private func loadMoreCharacters() {
         let hasNextPage = (currentInfо?.next != nil)
         //activityIndicator.isHidden = true
-        guard hasNextPage, !self.apiCaller.isLoading else { return }
+        guard hasNextPage, !self.apiService.isLoading else { return }
         page += 1
         getCharacters(with: String(page))
         //activityIndicator.isHidden = false

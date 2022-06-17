@@ -73,7 +73,7 @@ extension CharacterDetailsViewModel {
 
 extension CharacterDetailsViewModel {
     private func getCharacter(with characterID: String) {
-        APICaller.shared.getCharacter(load: true, characterID: characterID) { [weak self] result in
+        APIService.shared.getCharacter(load: true, characterID: characterID) { [weak self] result in
             DispatchQueue.main.async {
                 guard let self = self else { return }
                 switch result {

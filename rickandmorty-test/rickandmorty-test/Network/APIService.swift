@@ -1,5 +1,5 @@
 //
-//  APICaller.swift
+//  APIService.swift
 //  rickandmorty-test
 //
 //  Created by molexey on 05.05.2022.
@@ -8,8 +8,25 @@
 import Foundation
 import ObjectMapper
 
-final class APICaller {
-    static let shared = APICaller()
+protocol APIServiceProtocol {
+    
+    var isLoading: Bool { get set }
+    
+    func getCharacters(
+        load: Bool,
+        query: String,
+        completion: @escaping (Result<CharactersResponse, Error>) -> Void
+    )
+    
+    func getCharacter(
+        load: Bool,
+        characterID: String,
+        completion: @escaping (Result<Character, Error>) -> Void
+    )
+}
+
+final class APIService: APIServiceProtocol {
+    static let shared = APIService()
     
     var isLoading = false
     var urlComponents = URLComponents(string: "https://rickandmortyapi.com")
