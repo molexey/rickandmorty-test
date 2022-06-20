@@ -26,7 +26,7 @@ final class CharactersListViewModel: ObservableObject {
         switch event {
         case .onAppear:
             state = .loading
-            getCharacters(with: String(page))
+            callGetCharacters(with: String(page))
 
         case .onLoadMore:
             state = .loading
@@ -37,7 +37,7 @@ final class CharactersListViewModel: ObservableObject {
                         
         case .onReload:
             state = .loading
-            getCharacters(with: String(page))
+            callGetCharacters(with: String(page))
         }
     }
 }
@@ -77,10 +77,10 @@ extension CharactersListViewModel {
 }
 
 extension CharactersListViewModel {
-    public func getCharacters(with param: String) {
-        apiService.getCharacters(load: true, query: param) { result in
-            DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
+    public func callGetCharacters(with param: String) {
+        apiService.getCharacters(load: true, query: param) { [weak self] result in
+            guard let self = self else { return }
+            DispatchQueue.main.async {
                 switch result {
                 case .success(let response):
                     self.currentInfо = response.info
@@ -89,6 +89,7 @@ extension CharactersListViewModel {
                     }
                     print(self.data.count)
                     self.state = .loaded
+                    print(self.state)
                     
                 case .failure(let error):
                     print(error)
@@ -103,7 +104,7 @@ extension CharactersListViewModel {
         //activityIndicator.isHidden = true
         guard hasNextPage, !self.apiService.isLoading else { return }
         page += 1
-        getCharacters(with: String(page))
+        callGetCharacters(with: String(page))
         //activityIndicator.isHidden = false
     }
 }

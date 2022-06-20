@@ -7,8 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CE1890EF28605B5F00162A50 /* StubGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1890EE28605B5F00162A50 /* StubGenerator.swift */; };
+		CE1890F828607B6600162A50 /* MockAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1890F728607B6600162A50 /* MockAPIService.swift */; };
+		CE1890FC28607C6300162A50 /* character.json in Resources */ = {isa = PBXBuildFile; fileRef = CE1890FB28607C6300162A50 /* character.json */; };
+		CE1890FD28607C6300162A50 /* character.json in Resources */ = {isa = PBXBuildFile; fileRef = CE1890FB28607C6300162A50 /* character.json */; };
 		CE1A1E0C283668EC00E5A699 /* DoubleLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1A1E0B283668EC00E5A699 /* DoubleLabelView.swift */; };
-		CE22C30F285CBFC6001EE0E0 /* MockAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE22C2FD285CABBA001EE0E0 /* MockAPIService.swift */; };
 		CE22C318285CBFEC001EE0E0 /* rickandmortyUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE22C317285CBFEC001EE0E0 /* rickandmortyUnitTests.swift */; };
 		CE22C31E285CC001001EE0E0 /* CharactersViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE22C30D285CBA37001EE0E0 /* CharactersViewModelTests.swift */; };
 		CE306EBE282291E20042E031 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE306EBD282291E20042E031 /* AppDelegate.swift */; };
@@ -43,8 +46,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		CE1890EE28605B5F00162A50 /* StubGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubGenerator.swift; sourceTree = "<group>"; };
+		CE1890F728607B6600162A50 /* MockAPIService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockAPIService.swift; sourceTree = "<group>"; };
+		CE1890FB28607C6300162A50 /* character.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = character.json; sourceTree = "<group>"; };
 		CE1A1E0B283668EC00E5A699 /* DoubleLabelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoubleLabelView.swift; sourceTree = "<group>"; };
-		CE22C2FD285CABBA001EE0E0 /* MockAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAPIService.swift; sourceTree = "<group>"; };
 		CE22C30D285CBA37001EE0E0 /* CharactersViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharactersViewModelTests.swift; sourceTree = "<group>"; };
 		CE22C315285CBFEC001EE0E0 /* rickandmortyUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = rickandmortyUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE22C317285CBFEC001EE0E0 /* rickandmortyUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = rickandmortyUnitTests.swift; sourceTree = "<group>"; };
@@ -115,7 +120,9 @@
 		CE1890ED285FCF7A00162A50 /* Mocks */ = {
 			isa = PBXGroup;
 			children = (
-				CE22C2FD285CABBA001EE0E0 /* MockAPIService.swift */,
+				CE1890EE28605B5F00162A50 /* StubGenerator.swift */,
+				CE1890F728607B6600162A50 /* MockAPIService.swift */,
+				CE1890FB28607C6300162A50 /* character.json */,
 			);
 			path = Mocks;
 			sourceTree = "<group>";
@@ -272,6 +279,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE1890FD28607C6300162A50 /* character.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -281,6 +289,7 @@
 			files = (
 				CE306ECA282291E20042E031 /* LaunchScreen.storyboard in Resources */,
 				CE306EC7282291E20042E031 /* Assets.xcassets in Resources */,
+				CE1890FC28607C6300162A50 /* character.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -291,7 +300,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE1890F828607B6600162A50 /* MockAPIService.swift in Sources */,
 				CE22C31E285CC001001EE0E0 /* CharactersViewModelTests.swift in Sources */,
+				CE1890EF28605B5F00162A50 /* StubGenerator.swift in Sources */,
 				CE22C318285CBFEC001EE0E0 /* rickandmortyUnitTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -309,7 +320,6 @@
 				CEF3BA04285B83D4000574EC /* ViewController + Extentsion.swift in Sources */,
 				CE7FC61A2823F2CC005F3546 /* APIService.swift in Sources */,
 				CE306EBE282291E20042E031 /* AppDelegate.swift in Sources */,
-				CE22C30F285CBFC6001EE0E0 /* MockAPIService.swift in Sources */,
 				CEB118D128258A0100AB7C3C /* CharacterCellModel.swift in Sources */,
 				CE1A1E0C283668EC00E5A699 /* DoubleLabelView.swift in Sources */,
 				CE7FC6222823F3F0005F3546 /* UIImageLoader.swift in Sources */,
@@ -350,7 +360,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 7VHPL95L5E;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.molexey.rickandmortyUnitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -369,7 +379,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 7VHPL95L5E;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.molexey.rickandmortyUnitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
