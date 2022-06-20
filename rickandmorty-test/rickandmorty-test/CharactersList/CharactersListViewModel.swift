@@ -43,7 +43,23 @@ final class CharactersListViewModel: ObservableObject {
 }
 
 extension CharactersListViewModel {
-    enum State {
+    
+    enum State: Equatable {
+        static func == (lhs: CharactersListViewModel.State, rhs: CharactersListViewModel.State) -> Bool {
+            switch (lhs, rhs) {
+            case (.idle, .idle):
+                return true
+            case(.loading, .loading):
+                return true
+            case(.loaded, .loaded):
+                return true
+            case(.error, .error):
+                return true
+            default:
+                return false
+            }
+        }
+        
         case idle
         case loading
         case loaded
@@ -56,6 +72,8 @@ extension CharactersListViewModel {
         case onSelect(Int)
         case onReload
     }
+    
+    
 }
 
 extension CharactersListViewModel {

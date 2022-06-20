@@ -112,9 +112,18 @@
 			path = CharactersList;
 			sourceTree = "<group>";
 		};
+		CE1890ED285FCF7A00162A50 /* Mocks */ = {
+			isa = PBXGroup;
+			children = (
+				CE22C2FD285CABBA001EE0E0 /* MockAPIService.swift */,
+			);
+			path = Mocks;
+			sourceTree = "<group>";
+		};
 		CE22C316285CBFEC001EE0E0 /* rickandmortyUnitTests */ = {
 			isa = PBXGroup;
 			children = (
+				CE1890ED285FCF7A00162A50 /* Mocks */,
 				CE22C30D285CBA37001EE0E0 /* CharactersViewModelTests.swift */,
 				CE22C317285CBFEC001EE0E0 /* rickandmortyUnitTests.swift */,
 			);
@@ -159,7 +168,6 @@
 		CE7FC61B2823F2D2005F3546 /* Network */ = {
 			isa = PBXGroup;
 			children = (
-				CE22C2FD285CABBA001EE0E0 /* MockAPIService.swift */,
 				CE7FC6192823F2CC005F3546 /* APIService.swift */,
 				CE7FC6212823F3F0005F3546 /* UIImageLoader.swift */,
 				CE7FC61F2823F3CA005F3546 /* ImageLoader.swift */,

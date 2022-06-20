@@ -13,11 +13,11 @@ class MockAPIService: APIServiceProtocol {
     var isGetCharactersCalled = false
     var isGetCharacterCalled = false
     
+    var completionCharacters: [Character] = [Character]()
     var charactersResponse: CharactersResponse?
     var error: Error?
     
-    var completionCharacters: [Character] = [Character]()
-//    var completionCharactersResult: Result<CharactersResponse, Error>
+//    var completionCharactersResult: Result<CharactersResponse, Error> = .success()
     var completionClosureCharacters: ((Result<CharactersResponse, Error>) -> Void)!
     var completionClosureCharacter: ((Result<Character, Error>) -> Void)!
 

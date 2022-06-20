@@ -12,11 +12,13 @@ class CharactersListViewModelTests: XCTestCase {
     
     var sut: CharactersListViewModel!
     var mockAPIService: MockAPIService!
+    var page = 1
+    var selectedCharacter: ((Int) -> Void)?
     
     override func setUp() {
         super.setUp()
         mockAPIService = MockAPIService()
-        sut = CharactersListViewModel(page: 1, apiService: mockAPIService)
+        sut = CharactersListViewModel(page: page, apiService: mockAPIService)
     }
     
     override func tearDown() {
@@ -33,5 +35,23 @@ class CharactersListViewModelTests: XCTestCase {
         XCTAssert(mockAPIService!.isGetCharactersCalled)
     }
 
-
+    func test_onAppear_event() {
+        sut.send(event: .onAppear)
+        XCTAssertEqual(sut.state, .loading)
+    }
+    
+    func test_onReload_event() {
+        sut.send(event: .onReload)
+        XCTAssertEqual(sut.state, .loading)
+    }
+    
+    func test_onLoadMore_event() {
+    sut.send(event: .onLoadMore)
+        XCTAssertEqual(sut.state, .loading)
+    }
+        
+    func test_onSelect_event() {
+        sut.send(event: .onSelect(1))
+//        XCTAssert(sut.selectedCharacter )
+    }
 }
