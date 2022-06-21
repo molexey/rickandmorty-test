@@ -6,17 +6,13 @@
 //
 
 import XCTest
-import Combine
 @testable import rickandmorty
 
 class CharactersListViewModelTests: XCTestCase {
     
-    private var cancellable: AnyCancellable?
-    
     var sut: CharactersListViewModel!
     var mockAPIService: MockAPIService!
     var page = 1
-    var selectedCharacter: ((Int) -> Void)?
     
     override func setUp() {
         super.setUp()
@@ -30,34 +26,45 @@ class CharactersListViewModelTests: XCTestCase {
         super.tearDown()
     }
     
-    func test_onAppear_event() {
+    func test_state_whenOnAppearEventSent() {
         sut.send(event: .onAppear)
         XCTAssertEqual(sut.state, .loading)
     }
-
-    func test_onReload_event() {
+    
+    func test_state_whenOnReloadEventSent() {
         sut.send(event: .onReload)
         XCTAssertEqual(sut.state, .loading)
     }
-
-    func test_onLoadMore_event() {
-    sut.send(event: .onLoadMore)
+    
+    func test_state_whenOnLoadMoreEventSent() {
+        sut.send(event: .onLoadMore)
         XCTAssertEqual(sut.state, .loading)
     }
-
-    func test_onSelect_event() {
-        sut.send(event: .onSelect(1))
-//        XCTAssert(sut.selectedCharacter )
+    
+    func test_selectedCharacterValue_whenOnSelectEventSent() {
+        // GIVEN
+        let characterID = 1
+        
+        // WHEN
+        sut.send(event: .onSelect(characterID))
+        
+        // THEN
+        sut.selectedCharacter = { retrievedCharacterID in
+            XCTAssertEqual(characterID, retrievedCharacterID)
+        }
     }
     
-    func test_get_characters() {
-        sut.callGetCharacters(with: "1")
+    func test_callGetCharacters() {
+        let characterID = "1"
+        
+        sut.callGetCharacters(with: characterID)
         XCTAssert(mockAPIService!.isGetCharactersCalled)
     }
     
-    func test_Loaded_state() {
+    func test_loadedState_whenDataLoaded() {
+        
         callGetCharactersFinished()
-
+        
         let expectation = self.expectation(description: "")
         DispatchQueue.main.async {
             expectation.fulfill()
@@ -70,7 +77,7 @@ class CharactersListViewModelTests: XCTestCase {
 
 extension CharactersListViewModelTests {
     private func callGetCharactersFinished() {
-       let charactersResponse = StubGenerator().stubCharactersResponse()
+        let charactersResponse = StubGenerator().stubCharactersResponse()
         mockAPIService.charactersResponse = charactersResponse
         sut.callGetCharacters(with: "1")
         mockAPIService.fetchSuccess()
