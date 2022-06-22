@@ -44,14 +44,17 @@ class CharactersListViewModelTests: XCTestCase {
     func test_selectedCharacterValue_whenOnSelectEventSent() {
         // GIVEN
         let characterID = 1
+        var retrievedCharacterID: Int?
         
         // WHEN
+        self.sut.selectedCharacter = { characterID in
+            retrievedCharacterID = characterID
+        }
+        
         sut.send(event: .onSelect(characterID))
         
         // THEN
-        sut.selectedCharacter = { retrievedCharacterID in
-            XCTAssertEqual(characterID, retrievedCharacterID)
-        }
+        XCTAssertEqual(characterID, retrievedCharacterID)
     }
     
     func test_callGetCharacters() {
