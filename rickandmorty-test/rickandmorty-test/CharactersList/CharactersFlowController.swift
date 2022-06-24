@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol CharactersFlow {
+    func startCharacterDetails(characterID: Int)
+}
+
 final class CharactersFlowController: UINavigationController {
     func start() {
         let charactersViewController = self.viewControllers.first as! CharactersViewController
@@ -14,8 +18,10 @@ final class CharactersFlowController: UINavigationController {
             self?.startCharacterDetails(characterID: characterID)
         }
     }
-    
-    private func startCharacterDetails(characterID: Int) {
+}
+
+extension CharactersFlowController: CharactersFlow {
+    internal func startCharacterDetails(characterID: Int) {
         let viewModel = CharacterDetailsViewModel(characterID: characterID)
         let viewController = CharacterDetailsViewController(viewModel: viewModel)
         self.pushViewController(viewController, animated: true)

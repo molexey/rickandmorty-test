@@ -12,17 +12,21 @@ class CharactersListViewModelTests: XCTestCase {
     
     var sut: CharactersListViewModel!
     var mockAPIService: MockAPIService!
+    var mockCharactersFlowController: MockCharactersFlowController!
     var page = 1
     
     override func setUp() {
         super.setUp()
         mockAPIService = MockAPIService()
+        mockCharactersFlowController = MockCharactersFlowController()
+        
         sut = CharactersListViewModel(page: page, apiService: mockAPIService)
     }
     
     override func tearDown() {
         sut = nil
         mockAPIService = nil
+        mockCharactersFlowController = nil
         super.tearDown()
     }
     
@@ -63,6 +67,25 @@ class CharactersListViewModelTests: XCTestCase {
         sut.callGetCharacters(with: characterID)
         XCTAssert(mockAPIService!.isGetCharactersCalled)
     }
+    
+    func test_startCharacterDetails_whenOnSelectEventSent() {
+        // GIVEN
+        let characterID = 2
+        var retrievedCharacterID: Int?
+        
+        mockCharactersFlowController.start(viewModel: sut)
+        
+        // WHEN
+        sut.send(event: .onSelect(characterID))
+
+        // THEN
+        XCTAssertTrue(mockCharactersFlowController.startCharacterDetailsCalled)
+        
+        retrievedCharacterID = mockCharactersFlowController.characterID
+        
+        XCTAssertEqual(characterID, retrievedCharacterID)
+    }
+
     
     func test_loadedState_whenDataLoaded() {
         

@@ -27,6 +27,7 @@
 		CEB118CF282588CA00AB7C3C /* CollectionAndTableViewCompatible in Frameworks */ = {isa = PBXBuildFile; productRef = CEB118CE282588CA00AB7C3C /* CollectionAndTableViewCompatible */; };
 		CEB118D128258A0100AB7C3C /* CharacterCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB118D028258A0100AB7C3C /* CharacterCellModel.swift */; };
 		CEC020DE2857CCDF00777D39 /* CharactersListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC020DD2857CCDF00777D39 /* CharactersListViewModel.swift */; };
+		CEC10A2128659E49004A02C7 /* MockCharactersFlowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC10A2028659E49004A02C7 /* MockCharactersFlowController.swift */; };
 		CED9DF24285874A800D0C8EA /* CharacterDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED9DF23285874A800D0C8EA /* CharacterDetailsViewModel.swift */; };
 		CED9DF2A28591B0E00D0C8EA /* CharacterDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED9DF2928591B0E00D0C8EA /* CharacterDetailsView.swift */; };
 		CED9DF2C28591B6E00D0C8EA /* CharacterDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED9DF2B28591B6E00D0C8EA /* CharacterDetailsViewController.swift */; };
@@ -66,6 +67,7 @@
 		CE7FC6212823F3F0005F3546 /* UIImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageLoader.swift; sourceTree = "<group>"; };
 		CEB118D028258A0100AB7C3C /* CharacterCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterCellModel.swift; sourceTree = "<group>"; };
 		CEC020DD2857CCDF00777D39 /* CharactersListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharactersListViewModel.swift; sourceTree = "<group>"; };
+		CEC10A2028659E49004A02C7 /* MockCharactersFlowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockCharactersFlowController.swift; sourceTree = "<group>"; };
 		CED9DF23285874A800D0C8EA /* CharacterDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterDetailsViewModel.swift; sourceTree = "<group>"; };
 		CED9DF2928591B0E00D0C8EA /* CharacterDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterDetailsView.swift; sourceTree = "<group>"; };
 		CED9DF2B28591B6E00D0C8EA /* CharacterDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterDetailsViewController.swift; sourceTree = "<group>"; };
@@ -122,6 +124,7 @@
 			children = (
 				CE1890EE28605B5F00162A50 /* StubGenerator.swift */,
 				CE1890F728607B6600162A50 /* MockAPIService.swift */,
+				CEC10A2028659E49004A02C7 /* MockCharactersFlowController.swift */,
 				CE1890FB28607C6300162A50 /* character.json */,
 			);
 			path = Mocks;
@@ -300,6 +303,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CEC10A2128659E49004A02C7 /* MockCharactersFlowController.swift in Sources */,
 				CE1890F828607B6600162A50 /* MockAPIService.swift in Sources */,
 				CE22C31E285CC001001EE0E0 /* CharactersViewModelTests.swift in Sources */,
 				CE1890EF28605B5F00162A50 /* StubGenerator.swift in Sources */,
