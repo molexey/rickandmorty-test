@@ -1,25 +1,41 @@
 {
-  "object": {
-    "pins": [
-      {
-        "package": "CollectionAndTableViewCompatible",
-        "repositoryURL": "https://github.com/jayway/CollectionAndTableViewCompatible",
-        "state": {
-          "branch": "master",
-          "revision": "a5ae1c3696752bcb52df9d5e7d4ebfee2c69483f",
-          "version": null
-        }
-      },
-      {
-        "package": "ObjectMapper",
-        "repositoryURL": "https://github.com/tristanhimmelman/ObjectMapper.git",
-        "state": {
-          "branch": null,
-          "revision": "0b96a734de3ea1c87374ae677064f86adb0716ec",
-          "version": "4.2.0"
-        }
+  "pins" : [
+    {
+      "identity" : "collectionandtableviewcompatible",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/jayway/CollectionAndTableViewCompatible",
+      "state" : {
+        "branch" : "master",
+        "revision" : "a5ae1c3696752bcb52df9d5e7d4ebfee2c69483f"
       }
-    ]
-  },
-  "version": 1
+    },
+    {
+      "identity" : "objectmapper",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/tristanhimmelman/ObjectMapper.git",
+      "state" : {
+        "revision" : "0b96a734de3ea1c87374ae677064f86adb0716ec",
+        "version" : "4.2.0"
+      }
+    },
+    {
+      "identity" : "realm-core",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/realm/realm-core",
+      "state" : {
+        "revision" : "fd48276f88f3d55dbdcdc9e8cbf32541811d5865",
+        "version" : "12.1.0"
+      }
+    },
+    {
+      "identity" : "realm-swift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/realm/realm-swift",
+      "state" : {
+        "branch" : "master",
+        "revision" : "9f7a605dfcf6a60e019a296dc8d91c3b23837a82"
+      }
+    }
+  ],
+  "version" : 2
 }

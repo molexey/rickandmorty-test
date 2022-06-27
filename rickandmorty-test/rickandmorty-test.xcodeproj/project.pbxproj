@@ -24,6 +24,8 @@
 		CE7FC61D2823F360005F3546 /* Character.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7FC61C2823F360005F3546 /* Character.swift */; };
 		CE7FC6202823F3CA005F3546 /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7FC61F2823F3CA005F3546 /* ImageLoader.swift */; };
 		CE7FC6222823F3F0005F3546 /* UIImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7FC6212823F3F0005F3546 /* UIImageLoader.swift */; };
+		CE817EC428691A7D009DEF32 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = CE817EC328691A7D009DEF32 /* Realm */; };
+		CE817EC628691A7D009DEF32 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = CE817EC528691A7D009DEF32 /* RealmSwift */; };
 		CEB118CF282588CA00AB7C3C /* CollectionAndTableViewCompatible in Frameworks */ = {isa = PBXBuildFile; productRef = CEB118CE282588CA00AB7C3C /* CollectionAndTableViewCompatible */; };
 		CEB118D128258A0100AB7C3C /* CharacterCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB118D028258A0100AB7C3C /* CharacterCellModel.swift */; };
 		CEC020DE2857CCDF00777D39 /* CharactersListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC020DD2857CCDF00777D39 /* CharactersListViewModel.swift */; };
@@ -88,6 +90,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE817EC628691A7D009DEF32 /* RealmSwift in Frameworks */,
+				CE817EC428691A7D009DEF32 /* Realm in Frameworks */,
 				CE413395282A944600FA8F49 /* ObjectMapper in Frameworks */,
 				CEB118CF282588CA00AB7C3C /* CollectionAndTableViewCompatible in Frameworks */,
 			);
@@ -230,6 +234,8 @@
 			packageProductDependencies = (
 				CEB118CE282588CA00AB7C3C /* CollectionAndTableViewCompatible */,
 				CE413394282A944600FA8F49 /* ObjectMapper */,
+				CE817EC328691A7D009DEF32 /* Realm */,
+				CE817EC528691A7D009DEF32 /* RealmSwift */,
 			);
 			productName = "rickandmorty-test";
 			productReference = CE306EBA282291E20042E031 /* rickandmorty.app */;
@@ -266,6 +272,7 @@
 			packageReferences = (
 				CEB118CD282588CA00AB7C3C /* XCRemoteSwiftPackageReference "CollectionAndTableViewCompatible" */,
 				CE413393282A944500FA8F49 /* XCRemoteSwiftPackageReference "ObjectMapper" */,
+				CE817EC228691A7D009DEF32 /* XCRemoteSwiftPackageReference "realm-swift" */,
 			);
 			productRefGroup = CE306EBB282291E20042E031 /* Products */;
 			projectDirPath = "";
@@ -605,6 +612,14 @@
 				minimumVersion = 4.1.0;
 			};
 		};
+		CE817EC228691A7D009DEF32 /* XCRemoteSwiftPackageReference "realm-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/realm-swift";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 		CEB118CD282588CA00AB7C3C /* XCRemoteSwiftPackageReference "CollectionAndTableViewCompatible" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/jayway/CollectionAndTableViewCompatible";
@@ -620,6 +635,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = CE413393282A944500FA8F49 /* XCRemoteSwiftPackageReference "ObjectMapper" */;
 			productName = ObjectMapper;
+		};
+		CE817EC328691A7D009DEF32 /* Realm */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CE817EC228691A7D009DEF32 /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = Realm;
+		};
+		CE817EC528691A7D009DEF32 /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CE817EC228691A7D009DEF32 /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = RealmSwift;
 		};
 		CEB118CE282588CA00AB7C3C /* CollectionAndTableViewCompatible */ = {
 			isa = XCSwiftPackageProductDependency;

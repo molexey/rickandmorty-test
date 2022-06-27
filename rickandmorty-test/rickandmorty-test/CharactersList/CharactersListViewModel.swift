@@ -8,6 +8,7 @@
 import Foundation
 import Combine
 import CollectionAndTableViewCompatible
+import RealmSwift
 
 final class CharactersListViewModel: ObservableObject {
     @Published private(set) var state = State.idle
@@ -17,16 +18,27 @@ final class CharactersListViewModel: ObservableObject {
     public var data: [TableViewCompatible] = []
     public var selectedCharacter: ((Int) -> Void)?
     
+    private let realm: Realm
+    
     init(page: Int, apiService: APIServiceProtocol = APIService.shared) {
         self.page = page
         self.apiService = apiService
+        self.realm = try! Realm()
     }
     
     func send(event: Event) {
         switch event {
         case .onAppear:
             state = .loading
+            if !realm.objects(Character.self).isEmpty {
+                self.data.append(contentsOf: realm.objects(Character.self).map({CharacterCellModel(character: $0)}))
+                print("Data count \(self.data.count)")
+                self.page = (self.data.count / 20) + 1
+                
+                self.currentInfо = realm.objects(Info.self).first
+            } else {
             callGetCharacters(with: String(page))
+            }
 
         case .onLoadMore:
             state = .loading
@@ -83,14 +95,27 @@ extension CharactersListViewModel {
             DispatchQueue.main.async {
                 switch result {
                 case .success(let response):
-                    self.currentInfо = response.info
-                    if let characters = response.results {
-                        self.data.append(contentsOf: characters.map({CharacterCellModel(character: $0)}))
-                    }
-                    print(self.data.count)
-                    self.state = .loaded
-                    print(self.state)
                     
+                    do {
+                        let realm = try Realm()
+                        try realm.write() {
+                            
+                            let characters = response.results
+                            realm.add(characters, update: .modified)
+                            
+                            if let info = response.info {
+                                realm.add(info)
+                                self.currentInfо = info
+                            }
+                            
+                            self.data.append(contentsOf: characters.map({CharacterCellModel(character: $0)}))
+                            print("Data count \(self.data.count)")
+                            self.state = .loaded
+                            print(self.state)
+                        }
+                    } catch {
+                        print("Unable to update existing rate in Realm")
+                    }
                 case .failure(let error):
                     print(error)
                     self.state = .error(error)
@@ -104,6 +129,7 @@ extension CharactersListViewModel {
         //activityIndicator.isHidden = true
         guard hasNextPage, !self.apiService.isLoading else { return }
         page += 1
+        
         callGetCharacters(with: String(page))
         //activityIndicator.isHidden = false
     }

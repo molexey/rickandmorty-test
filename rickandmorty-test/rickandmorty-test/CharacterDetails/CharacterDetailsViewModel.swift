@@ -7,11 +7,13 @@
 
 import Foundation
 import Combine
+import RealmSwift
 
 final class CharacterDetailsViewModel: ObservableObject {
     @Published private(set) var state: State = .idle
         
     var characterID: Int
+    
     
     init(characterID: Int) {
         self.characterID = characterID
@@ -66,7 +68,7 @@ extension CharacterDetailsViewModel {
             statusAndSpecies = "\(character.status ?? "unknown") - \(character.species ?? " ")"
             characterLocation = character.location?.name ?? " "
             characterGender = character.gender ?? " "
-            characterEpisodes = String(character.episode?.count ?? 0)
+            characterEpisodes = String(character.episode.count ?? 0)
         }
     }
 }
