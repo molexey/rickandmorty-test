@@ -87,7 +87,13 @@ final class APIService: APIServiceProtocol {
             print(APIError.invalidURL)
             return
         }
-        let task = URLSession.shared.dataTask(with: url) { data, _, error in
+        
+        // Configuration without cache
+        let configuration = URLSessionConfiguration.default
+        configuration.urlCache = nil
+        let session = URLSession(configuration: configuration)
+        
+        let task = session.dataTask(with: url) { data, _, error in
             guard let data = data, error == nil else {
                 if let error = error {
                     completion(.failure(error))

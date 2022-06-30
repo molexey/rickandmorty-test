@@ -19,6 +19,7 @@ final class CharactersListViewModel: ObservableObject {
     public var selectedCharacter: ((Int) -> Void)?
     
     private let realm: Realm
+    private var token: NotificationToken?
     
     init(page: Int, apiService: APIServiceProtocol = APIService.shared) {
         self.page = page
@@ -26,20 +27,54 @@ final class CharactersListViewModel: ObservableObject {
         self.realm = try! Realm()
     }
     
+    private func loadFromRealm() {
+                
+        self.data = realm.objects(Character.self)
+//            .prefix(20)
+            .map({CharacterCellModel(character: $0)})
+        
+        print("Data count \(self.data.count)")
+        self.page = (self.data.count / 20) + 1
+        
+        self.currentInfо = realm.objects(Info.self).last
+        print(self.currentInfо?.next)
+        
+        self.state = .loaded
+    }
+    
+    private func observeRealm() {
+        token = realm.observe({ notification, realm in
+            print(notification)
+            
+            self.loadFromRealm()
+        })
+    }
+        
+    private func writeToRealm(this response: CharactersResponse) {
+        do {
+            let realm = try Realm()
+            try realm.write() {
+                realm.add(response.results, update: .modified)
+                if let info = response.info {
+                    realm.add(info)
+                    self.currentInfо = info
+                }
+                self.state = .loaded
+                print(self.state)
+            }
+        } catch {
+            print("Unable to update existing results in Realm")
+        }
+    }
+    
     func send(event: Event) {
         switch event {
         case .onAppear:
             state = .loading
-            if !realm.objects(Character.self).isEmpty {
-                self.data.append(contentsOf: realm.objects(Character.self).map({CharacterCellModel(character: $0)}))
-                print("Data count \(self.data.count)")
-                self.page = (self.data.count / 20) + 1
-                
-                self.currentInfо = realm.objects(Info.self).first
-            } else {
+            loadFromRealm()
+            observeRealm()
             callGetCharacters(with: String(page))
-            }
-
+            
         case .onLoadMore:
             state = .loading
             loadMoreCharacters()
@@ -84,46 +119,24 @@ extension CharactersListViewModel {
         case onSelect(Int)
         case onReload
     }
-    
-    
 }
 
 extension CharactersListViewModel {
     public func callGetCharacters(with param: String) {
         apiService.getCharacters(load: true, query: param) { [weak self] result in
             guard let self = self else { return }
-            DispatchQueue.main.async {
+            DispatchQueue.main.async { [weak self] in
                 switch result {
                 case .success(let response):
-                    
-                    do {
-                        let realm = try Realm()
-                        try realm.write() {
-                            
-                            let characters = response.results
-                            realm.add(characters, update: .modified)
-                            
-                            if let info = response.info {
-                                realm.add(info)
-                                self.currentInfо = info
-                            }
-                            
-                            self.data.append(contentsOf: characters.map({CharacterCellModel(character: $0)}))
-                            print("Data count \(self.data.count)")
-                            self.state = .loaded
-                            print(self.state)
-                        }
-                    } catch {
-                        print("Unable to update existing rate in Realm")
-                    }
+                    self?.writeToRealm(this: response)
                 case .failure(let error):
                     print(error)
-                    self.state = .error(error)
+                    self?.state = .error(error)
                 }
             }
         }
     }
-    
+        
     private func loadMoreCharacters() {
         let hasNextPage = (currentInfо?.next != nil)
         //activityIndicator.isHidden = true
