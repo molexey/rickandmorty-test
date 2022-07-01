@@ -7,6 +7,7 @@
 
 import Foundation
 import ObjectMapper
+import RealmSwift
 @testable import rickandmorty
 
 class StubGenerator {
@@ -19,7 +20,7 @@ class StubGenerator {
         return charactersResponse!
     }
     
-    func stubCharacters() -> [Character] {
+    func stubCharacters() -> List<Character> {
         let path = Bundle.main.path(forResource: "character", ofType: "json")!
         let data = try! Data(contentsOf: URL(fileURLWithPath: path))
         let jsonString = String(decoding: data, as: UTF8.self)

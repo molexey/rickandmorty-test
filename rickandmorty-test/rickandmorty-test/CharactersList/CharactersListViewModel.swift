@@ -13,6 +13,7 @@ import RealmSwift
 final class CharactersListViewModel: ObservableObject {
     @Published private(set) var state = State.idle
     private var page: Int
+    private let pageSize = 20
     private var currentInfо: Info? = nil
     private let apiService: APIServiceProtocol
     public var data: [TableViewCompatible] = []
@@ -25,16 +26,18 @@ final class CharactersListViewModel: ObservableObject {
         self.page = page
         self.apiService = apiService
         self.realm = try! Realm()
+        observeRealm()
+        print(realm.configuration.fileURL)
     }
     
     private func loadFromRealm() {
                 
         self.data = realm.objects(Character.self)
-//            .prefix(20)
+            .prefix(pageSize * page)
             .map({CharacterCellModel(character: $0)})
         
         print("Data count \(self.data.count)")
-        self.page = (self.data.count / 20) + 1
+//        self.page = (self.data.count / pageSize) + 1
         
         self.currentInfо = realm.objects(Info.self).last
         print(self.currentInfо?.next)
@@ -72,7 +75,6 @@ final class CharactersListViewModel: ObservableObject {
         case .onAppear:
             state = .loading
             loadFromRealm()
-            observeRealm()
             callGetCharacters(with: String(page))
             
         case .onLoadMore:
@@ -125,13 +127,13 @@ extension CharactersListViewModel {
     public func callGetCharacters(with param: String) {
         apiService.getCharacters(load: true, query: param) { [weak self] result in
             guard let self = self else { return }
-            DispatchQueue.main.async { [weak self] in
+            DispatchQueue.main.async {
                 switch result {
                 case .success(let response):
-                    self?.writeToRealm(this: response)
+                    self.writeToRealm(this: response)
                 case .failure(let error):
                     print(error)
-                    self?.state = .error(error)
+                    self.state = .error(error)
                 }
             }
         }
@@ -140,10 +142,14 @@ extension CharactersListViewModel {
     private func loadMoreCharacters() {
         let hasNextPage = (currentInfо?.next != nil)
         //activityIndicator.isHidden = true
-        guard hasNextPage, !self.apiService.isLoading else { return }
-        page += 1
         
-        callGetCharacters(with: String(page))
+//        guard hasNextPage, !self.apiService.isLoading else { return }
+        page += 1
+        if hasNextPage, !self.apiService.isLoading {
+            callGetCharacters(with: String(page))
+        } else {
+            loadFromRealm()
+        }
         //activityIndicator.isHidden = false
     }
 }

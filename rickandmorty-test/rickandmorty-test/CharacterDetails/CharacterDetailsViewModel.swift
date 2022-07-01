@@ -68,7 +68,7 @@ extension CharacterDetailsViewModel {
             statusAndSpecies = "\(character.status ?? "unknown") - \(character.species ?? " ")"
             characterLocation = character.location?.name ?? " "
             characterGender = character.gender ?? " "
-            characterEpisodes = String(character.episode.count ?? 0)
+            characterEpisodes = String(character.episodes.count ?? 0)
         }
     }
 }

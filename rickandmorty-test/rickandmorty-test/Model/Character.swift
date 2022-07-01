@@ -80,7 +80,7 @@ class Character: Object, Mappable {
     @Persisted var origin: Origin?
     @Persisted var location: Location?
     @Persisted var image: String //https://rickandmortyapi.com/api/character/avatar/1.jpeg
-    @Persisted var episode: List<String>
+    @Persisted var episodes: List<String>
     @Persisted var url: String //https://rickandmortyapi.com/api/character/1
     
     required convenience init?(map: ObjectMapper.Map) {
@@ -97,9 +97,16 @@ class Character: Object, Mappable {
         origin <- map["origin"]
         location <- map["location"]
         image <- map["image"]
-        episode <- map["episode"]
-        url <- map["url"]
         
+        var episodes: [String]?
+        episodes <- map["episode"]
+        if let episodes = episodes {
+            for episode in episodes {
+                self.episodes.append(episode)
+            }
+        }
+        
+        url <- map["url"]
     }
 }
 
@@ -131,5 +138,4 @@ class Location: Object, Mappable {
         name <- map["name"]
         url <- map["url"]
     }
-    
 }
